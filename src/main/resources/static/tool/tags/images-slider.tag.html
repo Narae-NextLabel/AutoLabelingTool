@@ -1,0 +1,259 @@
+<images-slider class="form-inline">
+    <style>
+        input[type='file'] {
+            display: none;
+        }
+    </style>
+    <div id="leftpaddle" class="align-middle" style="height: 100%;">
+        <span style="width: 50px; height: 90px;">
+            <i class="icon-left-open" style="font-size: 1.5em"></i>
+        </span>
+    </div>
+    <div class="photolist-wrapper " style="width: calc(100% - 160px); height: 90px;">
+        <div id="photolist" class="photolist">
+            <!--          <span each={ thumbnails } class="d-inline-block">-->
+            <!--                <span class="delete" onclick={deleteThumbnail}><img src="tool/img/delete.svg"></span>-->
+            <img id="thumbnail_{index}" each={ thumbnail,index in thumbnails } src={ thumbnail.src } label={ thumbnail.name } title={ thumbnail.name } width={thumbnailWidth} height="87px" onclick={loadIntoWorkArea}>
+            <!--            </span>-->
+        </div>
+    </div>
+    <div id="rightpaddle" class="align-middle" style="height: 100%;">
+        <span style="width: 50px; height: 90px;">
+            <i class="icon-right-open" style="font-size: 1.5em"></i>
+        </span>
+    </div>
+
+
+    <script>
+        var tag = this;
+        tag.readImageFiles = readImageFiles;
+        tag.readImageFile = readImageFile;
+        tag.slideleft = slideleft;
+        tag.slideright = slideright;
+        tag.deleteThumbnail = deleteThumbnail;
+        tag.loadIntoWorkArea = loadIntoWorkArea;
+
+        this.on('mount', function () {
+
+            $("#leftpaddle").click(function (e) {
+                tag.slideleft(e);
+
+            })
+
+            $("#rightpaddle").click(function (e) {
+                tag.slideright(e);
+
+            })
+
+            //Map keyboard keys
+            document.addEventListener('keydown', e => {
+
+                if (e.key == 'ArrowLeft' && e.altKey) {
+                    if (tag.currentIndex > 0) $("#thumbnail_" + --tag.currentIndex).click();
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                }
+                if (e.key == 'ArrowRight' && e.altKey) {
+                    if (tag.currentIndex < tag.thumbnails.length - 1) $("#thumbnail_" + ++tag.currentIndex).click();
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                }
+
+                if (e.key == 'o' && e.altKey && e.ctrlKey) {
+                    document.getElementById('image_folder').click();
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                if (e.key == 'o' && e.altKey) {
+                    document.getElementById('browseImages').click();
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            })
+        });
+
+        this.on('updated', () => {
+            // $("#thumbnail_0").click();
+
+        })
+        function readImageFiles(e) {
+            var input = e.srcElement || e.target;
+            if (input.files && input.files[0]) {
+                for (i = 0; i < input.files.length; i++) {
+                    this.readImageFile(input.files[i]);
+                }
+            }
+        }
+        tag.thumbnails = [];
+        tag.currentIndex = 0;
+        this.thumbnailWidth = this.opts.thumbnail_width || "80px";
+        function readImageFile(f) {
+            if (f.type.startsWith("image")) {
+                var reader = new FileReader();
+                reader.onload = e => {
+                    var imgData = {
+                        name: f.name,
+                        src: e.target.result
+                    };
+                    updateDimentions(e.target.result, imgData);
+                    tag.thumbnails.push(imgData);
+
+                    this.trigger("uploadimages");
+
+                }
+                reader.onloadend = e => {
+                    this.update();
+                }
+                reader.readAsDataURL(f);
+            }
+        }
+
+        function updateDimentions(imgFileSrc, imageDataObject) {
+            // 이미지 객체 생성
+            var img = new Image();
+
+            // 이미지 로딩 후의 이벤트 핸들러
+            function onLoadHandler() {
+                // 이미지 객체의 onload 이벤트 핸들러 제거
+                img.onload = null;
+
+                // 이미지 크기 및 스케일 정보 설정
+                imageDataObject.size = {
+                    width: this.width / this.height * 721,
+                    height: 721,
+                    scaledWidth: this.width / this.height * 721,
+                    scaledHeight: 721,
+                    imageScale: 1
+                };
+                console.log("이미지 사이즈 고정")
+                // 이미지 정보를 저장
+                addImgToStore(imageDataObject.name, imageDataObject.size);
+            }
+
+            // 이미지 객체의 onload 이벤트 핸들러 설정
+            img.onload = onLoadHandler;
+
+            // 이미지 소스 설정
+            img.src = imgFileSrc;
+        }
+
+        this.sliding = false;
+        this.sliderMove = "80px";
+        function slideleft(e) {
+            var photolist = $("#photolist");
+            if (this.sliding === false) {
+                this.sliding = true;
+                photolist.css({ left: "-" + this.sliderMove })
+                    .prepend(photolist.children('img:last-child'))
+                    .animate({ left: 0 }, 200, 'linear', () => {
+                        this.sliding = false;
+                    });
+            }
+        };
+
+        function slideright(e) {
+            var photolist = $("#photolist");
+            if (this.sliding === false) {
+                this.sliding = true;
+                photolist.animate({ left: "-" + this.sliderMove }, 200, 'linear', () => {
+                    photolist.css({ left: 0 })
+                        .append(photolist.children('img:first-child'));
+                    this.sliding = false;
+                });
+            }
+        };
+
+        function deleteThumbnail(e) {
+            var thumbnail = $(e.target.nextElementSibling);
+            for (var thumbnail_i in tag.thumbnails) {
+                if (tag.thumbnails[thumbnail_i].name === $(thumbnail[0]).attr("title")) {
+                    tag.thumbnails.splice(thumbnail_i, 1);
+                    break;
+                }
+            }
+            this.update();
+
+        }
+
+        function loadIntoWorkArea(e) {
+            labellingData[imgSelected.name] = { shapes: [] };
+            imgSelected = tag.thumbnails[e.item.index];
+
+            let preZoom = localStorage.getItem("zoom");
+
+            if (preZoom !== null && imgSelected.isZoomed !== 1) {
+                imgSelected.size.imageScale = 1 * preZoom;
+                imgSelected.size.scaledWidth = Math.floor(imgSelected.size.width * imgSelected.size.imageScale);
+                imgSelected.size.scaledHeight = Math.floor(imgSelected.size.height * imgSelected.size.imageScale);
+            }
+
+            $("#zoom-scale").val(Math.round(imgSelected.size.imageScale * 100) + '%');
+            riot.mount("workarea", { img: imgSelected });
+
+            checkboxList.innerHTML = '';
+        }
+
+        $(document).ready(function () {
+            // Get projectIdx and userName.
+            var projectIdx = $("#projectIdx").text(); // Code to get project index;
+            var userName = $("#userName").text(); // Code to get user name;
+            tag.thumbnails=[];
+            var projectIdxSpan = document.createElement("span");
+            projectIdxSpan.style.display = "none";
+            projectIdxSpan.innerText = projectIdx;
+            projectIdxSpan.id = "hiddenProjectIdx";
+            document.body.appendChild(projectIdxSpan);
+            console.log("프로젝트idx :",projectIdx)
+            console.log("userName :",userName)
+            $.ajax({
+                type: "GET",
+                url: "/loadImages",
+                data: {
+                    projectIdx: projectIdx,
+                    userName: userName
+                },
+                success: function (response) {
+                    // Process the data (response) received from the server.
+                    console.log(response);
+                    let imagesPath = response.imagesPath;
+                    let imagesName = response.imagesName;
+
+                    for (let i = 0; i < imagesName.length; i++) {
+                        // Create an Image element
+                        let img = new Image();
+
+                        // Set the source of the image (image path)
+                        img.src = imagesPath[i];
+
+                        // Use the image after it's loaded
+                        img.onload = function () {
+                            var imgData = {
+                                name: imagesName[i],
+                                src: img.src
+                            };
+                            // Add image data to thumbnails
+                            updateDimentions(img.src, imgData);
+                            tag.thumbnails.push(imgData);
+                            // Trigger events and update
+                            tag.trigger("uploadimages");
+                            tag.update();
+                            const totalImagesElem = $('#totalImages');
+                            totalImagesElem.text($('#photolist img').length);
+
+                        };
+
+                    }
+
+                    // Example: Display on the screen using the received image path
+                },
+                error: function (error) {
+                    console.log("An error occurred: " + JSON.stringify(error));
+                }
+            });
+
+        });
+
+    </script>
+</images-slider>

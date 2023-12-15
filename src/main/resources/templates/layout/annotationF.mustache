@@ -1,0 +1,463 @@
+<!--   Core JS Files   -->
+</div>
+
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+
+</script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="assets/js/material-dashboard.min.js?v=3.0.0"></script>
+<script src="tool/js/config.js"></script>
+<!-- <script src="tags/tags.js"></script> -->
+<script src="tool/js/thirdparty/riot+compiler.min.js"></script>
+
+
+<script src="tool/tags/images-slider.tag.html" type="riot/tag"></script>
+<script src="tool/tags/menu.tag.html" type="riot/tag"></script>
+<script src="tool/tags/pluginsMenu.tag.html" type="riot/tag"></script>
+<script src="tool/tags/shortcuts.tag.html" type="riot/tag"></script>
+<script src="tool/tags/toolbox.tag.html" type="riot/tag"></script>
+<script src="tool/tags/workarea.tag.html" type="riot/tag"></script>
+<script src="tool/tags/pluginWindow.tag.html" type="riot/tag"></script>
+<script src="tool/tags/plugins/facepp.tag.html" type="riot/tag"></script>
+<script src="tool/tags/actionbar.tag.html" type="riot/tag"></script>
+<script src="tool/tags/trackinglines.tag.html" type="riot/tag"></script>
+<script src="tool/tags/settings-window.tag.html" type="riot/tag"></script>
+<script src="tool/tags/label-panel.tag.html" type="riot/tag"></script>
+<script src="tool/tags/attributes-list.tag.html" type="riot/tag"></script>
+
+<script src="tool/tags/actions/lightbulb-action.tag.html" type="riot/tag"></script>
+<script src="tool/tags/actions/landmark-action.tag.html" type="riot/tag"></script>
+<script src="tool/tags/actions/zoom-action.tag.html" type="riot/tag"></script>
+<script src="tool/tags/actions/colorpicker-action.tag.html" type="riot/tag"></script>
+
+<script type="text/javascript">
+    eventBus = riot.observable();
+    riot.mount("menu-dropdown, plugins-menu, shortcuts");
+    riot.mount("actionbar");
+    riot.mount("toolbox");
+    riot.mount("images-slider");
+
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })
+
+
+
+
+</script>
+<script src="tool/js/settings.js"></script>
+<script src="tool/js/thirdparty/svg.min.js"></script>
+<script src="tool/js/thirdparty/svg.draw.min.js"></script>
+<script src="tool/js/thirdparty/svg.select.min.js"></script>
+<script src="tool/js/thirdparty/svg.resize.min.js"></script>
+<script src="tool/js/thirdparty/svg.draggable.min.js"></script>
+<script src="tool/js/storePersistor.js"></script>
+<script src="tool/js/store.js"></script>
+<script src="tool/js/savefile.js"></script>
+<script src="tool/js/openfile.js"></script>
+<script src="tool/dataformaters/dlib.js"></script>
+<script src="tool/js/app.js"></script>
+<script src="tool/js/nimnObjStructure.js"></script>
+<script src="tool/dataformaters/coco.js"></script>
+<script src="tool/dataformaters/pascal_voc.js"></script>
+<script>
+    const classColors = {
+        "0": "#FF0000", // red
+        "1": "#0000FF", // blue
+        "2": "#008000", // green
+        "3": "#FFFF00", // yellow
+        "4": "#800080", // purple
+        "5": "#FFA500", // orange
+        "6": "#FFC0CB", // pink
+        "7": "#A52A2A", // brown
+        "8": "#808080", // grey
+        "9": "#EE82EE", // violet
+        "10": "#4B0082", // indigo
+        "11": "#00FF00", // lime
+        "12": "#808000", // olive
+        "13": "#00FFFF", // cyan
+        "14": "#FF00FF", // magenta
+        "15": "#800000", // maroon
+        "16": "#FFD700", // gold
+        "17": "#C0C0C0", // silver
+        "18": "#FFDAB9", // peach
+        "19": "#F5F5DC", // beige
+        "20": "#FFFFF0", // ivory
+        "21": "#008080", // teal
+        "22": "#000080", // navy
+        "23": "#FF7F50", // coral
+        "24": "#36454F", // charcoal
+        "25": "#00FFFF", // aqua
+        "26": "#0F52BA", // sapphire
+        "27": "#9966CC", // amethyst
+        "28": "#40E0D0", // turquoise
+        "29": "#E6E6FA", // lavender
+        "30": "#DDA0DD", // plum
+        "31": "#DA70D6", // orchid
+        "32": "#FA8072", // salmon
+        "33": "#B87333", // copper
+        "34": "#CD7F32", // bronze
+        "35": "#9B111E", // ruby
+        "36": "#00A36C", // jade
+        "37": "#50C878", // emerald
+        "38": "#98FB98", // mint
+        "39": "#007BA7", // cerulean
+        "40": "#E30B5D", // raspberry
+        "41": "#FFA474", // tangerine
+        "42": "#FFDB58", // mustard
+        "43": "#C3B091", // khaki
+        "44": "#FF00FF", // fuchsia
+        "45": "#DC143C", // crimson
+        "46": "#E0B0FF", // mauve
+        "47": "#FFF44F", // lemon
+        "48": "#32CD32", // limegreen
+        "49": "#FF69B4", // hotpink
+        "50": "#228B22", // forestgreen
+        "51": "#87CEEB", // skyblue
+        "52": "#FFDEAD", // navajowhite
+        "53": "#F5DEB3", // wheat
+        "54": "#9932CC", // darkorchid
+        "55": "#00BFFF", // deepskyblue
+        "56": "#B22222", // firebrick
+        "57": "#2E8B57", // seagreen
+        "58": "#DAA520", // goldenrod
+        "59": "#BA55D3", // mediumorchid
+        "60": "#DB7093", // palevioletred
+        "61": "#BDB76B", // darkkhaki
+        "62": "#66CDAA", // mediumaquamarine
+        "63": "#98FB98", // palegreen
+        "64": "#D8BFD8", // thistle
+        "65": "#CD853F", // peru
+        "66": "#FF6347", // tomato
+        "67": "#008B8B", // darkcyan
+        "68": "#F08080", // lightcoral
+        "69": "#FFA07A", // lightsalmon
+        "70": "#2F4F4F", // darkslategray
+        "71": "#00FA9A", // mediumspringgreen
+        "72": "#191970", // midnightblue
+        "73": "#8B4513", // saddlebrown
+        "74": "#8B008B", // darkmagenta
+        "75": "#BC8F8F", // rosybrown
+        "76": "#00CED1", // darkturquoise
+        "77": "#5F9EA0", // cadetblue
+        "78": "#B0E0E6", // powderblue
+        "79": "#B0C4DE" // lightsteelblue
+    };
+    // 변수를 사용하여 경고를 한 번만 표시하도록 합니다.
+    var unloadWarningShown = false;
+
+    // 사용자가 페이지를 떠날 때 경고를 표시하는 함수
+    window.onbeforeunload = function() {
+        if (!unloadWarningShown) {
+            unloadWarningShown = true;
+            return "작업 중인 내용이 손실될 수 있습니다.";
+        }
+    };
+
+
+    $('#goEdu').on('click', function() {
+        var userResponse = confirm("계속 진행하시겠습니까? 진행하면 화면조작이 불가합니다.");
+        if (userResponse) {
+            showOverlay();
+            startTrainingProcess();
+        } else {
+            console.log("사용자가 '아니오'를 선택했습니다.");
+        }
+    });
+
+
+
+    function showToast(message) {
+        var toastHTML = `<div id="loading">
+    <div>
+        <img src="assets/img/logos/NextLabelLogo.png" id="logoNL">
+    </div>
+<div class="progress-bar">
+        <span class="bar">
+                <span class="progress" id="loadingProgress"></span>
+            </span>
+    </div>
+    <div class="loaderMent">${message}</div>
+
+</div>`;
+
+        var parentElement = $('#toastContainer');
+        parentElement.html(toastHTML);
+
+    }
+
+
+
+    function startTrainingProcess() {
+        var hiddenProjectIdxElement = document.getElementById("hiddenProjectIdx");
+        var projectIdxValue = hiddenProjectIdxElement.innerText;
+        var userName = "{{userName}}";
+
+        // 1단계: 클래스 이름 전처리 시작
+        console.log("학습 전처리 중입니다.");
+        showToast("학습 전처리 중입니다.");
+        clickSequentially(function(classnames) {
+            $.ajax({
+                type: 'POST',
+                url: 'http://127.0.0.1:5000/checkClassNames',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify({classnames: classnames, username: userName, idx: projectIdxValue}),
+                success: function(response) {
+                    console.log('클래스이름들 전처리 완료', response);
+                        startTraining(userName, projectIdxValue);
+                },
+                error: function(error) {
+                    console.error('클래스이름들 전처리 실패:', error);
+                }
+            });
+        });
+    }
+
+
+
+    $('.toast-btnpredict').on('click', function() {
+        var userResponse = confirm("계속 진행하시겠습니까? 진행하면 화면조작이 불가합니다.");
+        if (userResponse) {
+            showOverlay();
+            startTrainingProcess();
+        } else {
+            console.log("사용자가 '아니오'를 선택했습니다.");
+        }
+    });
+    ///////////////////////////////////////////////////////////
+    function updateImageCount() {
+        var $images = $('#photolist img');
+        var imageCount = $images.length;
+        var $imageCountDisplay = $('#image-count-display');
+        $imageCountDisplay.text(imageCount);
+    }
+    //////////////////////////////////////////////////////////////////////
+
+    function sendPostRequest(bestPtDir, projectIdx, trainClassNames) {
+        // 데이터 객체 생성
+        var data = {
+            bestPtDir: bestPtDir,
+            projectIdx: projectIdx,
+            trainClassNames: trainClassNames
+        };
+
+        // AJAX POST 요청
+        $.ajax({
+            url: '/receiveTrainData',  // 서버의 엔드포인트 URL
+            type: 'POST',
+            contentType: 'application/json', // 보내는 데이터의 타입
+            data: JSON.stringify(data), // 데이터 객체를 JSON 문자열로 변환
+            success: function(response) {
+                // 요청 성공 시 수행할 작업
+                console.log('서버 응답:', response);
+                // 필요한 추가 작업 수행
+            },
+            error: function(xhr, status, error) {
+                // 요청 실패 시 수행할 작업
+                console.error('오류 발생:', error);
+                // 오류 처리 로직
+            }
+        });
+    }
+
+    $.ajax({
+        url: 'lastModelIdx',
+        type: 'GET',
+        success: function(lastModelIdx) {
+            console.log("마지막 modelIdx: " + lastModelIdx);
+            receivedModelIdx   = lastModelIdx;
+        },
+        error: function(error) {
+            console.log("Error: " + error);
+        }
+    });
+    function startTraining(userName, projectIdxValue) {
+        console.log("학습 중입니다.");
+        showToast("학습 중입니다.");
+
+        // window.removeEventListener('beforeunload', onBeforeUnloadHandler);
+
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:5000/startTraining',
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify({username: userName, idx: projectIdxValue}),
+            success: function(response) {
+                console.log('학습성공!', response);
+                showToast("학습이 성공적으로 완료되었습니다.", true); // HAN
+
+                // 서버로 보낼 데이터 설정
+                var trainClassNames = response.trainClassNames;
+                var bestPtDir = response.bestPtDir;
+                var projectIdx = response.projectIdx;
+
+                sendPostRequest(bestPtDir, projectIdx, trainClassNames, userName);
+
+                unloadWarningShown = true;
+                window.location.href = '/afterTrain?projectIdx=' + projectIdx + '&userName=' + userName+'&lastModelIdx='+receivedModelIdx;
+            },
+            error: function(error) {
+                console.error('학습 실패!:', error);
+                showToast("학습이 완료되었습니다. 예측된 이미지 페이지로 이동합니다.",false);
+
+                // 3초 후에 페이지 이동
+                setTimeout(function() {
+                    unloadWarningShown = true;
+                    window.location.href = '/afterTrain?projectIdx=' + projectIdxValue + '&userName=' + userName+'&lastModelIdx='+receivedModelIdx;
+                }, 3000);
+            }
+        });
+    }
+
+
+    function convertSizeStringToDecimal(sizeString) {
+        // Check if sizeString is null or undefined
+        if (sizeString === null || sizeString === undefined) {
+            // Handle the error here, for example, return a default value
+            return 1.0;
+        }
+
+        // Remove '%' symbol and convert to real number
+        var decimalValue = parseFloat(sizeString.replace('%', ''));
+
+        // If the converted value is NaN, 1.0 is returned as the default value.
+        return isNaN(decimalValue) ? 1.0 : decimalValue / 100.0;
+    }
+
+
+    function clickSequentially(callback) {
+        var $images = $('#photolist img');
+        let classnames = [];
+        let currentIndex = 0;
+
+
+        async function clickNextImage() {
+            if (currentIndex < $images.length) {
+                $images.eq(currentIndex).click();
+                await waitForData();
+                currentIndex++;
+                setTimeout(clickNextImage, 500);
+            } else {
+                if (typeof callback === 'function') {
+                    callback(classnames);
+                }
+            }
+        }
+
+        async function waitForData() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    var hiddenProjectIdxElement = document.getElementById("hiddenProjectIdx");
+                    var projectIdxValue = hiddenProjectIdxElement.innerText;
+                    let filename = $('#work-canvas').attr('class');
+                    let classname = [];
+                    let height = $('#work-canvas').attr('height');
+                    let width = $('#work-canvas').attr('width');
+                    let size = $('#zoom-scale').val();
+                    let labelFolder = $('#labelFolder').text();
+                    var resize = convertSizeStringToDecimal(size);
+                    if (resize > 1) {
+                        height = height / resize;
+                        width = width / resize;
+                    } else if (resize < 1) {
+                        height = (height / (resize * 10.0)) * 10.0;
+                        width = (width / (resize * 10.0)) * 10.0;
+                    }
+                    let bboxes =[]
+                    let result = labellingData[imgSelected.name].shapes;
+                    for (let i = 0; i < result.length; i++) {
+                        classnames.push(result[i].label);
+                        let bbox = result[i].bbox;
+                        classname.push(result[i].label);
+                        bboxes.push([bbox.x, bbox.y, bbox.width, bbox.height]);
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://127.0.0.1:5000/savetxt',
+                        contentType: 'application/json;charset=UTF-8',
+                        data: JSON.stringify({
+                            classname: classname,
+                            bbox: bboxes,
+                            filename: filename,
+                            height: height,
+                            width: width,
+                            username: "{{userName}}",
+                            idx: projectIdxValue,
+                            labelFolder:labelFolder
+                        }),
+                        success: function(response) {
+                            console.log("저장완료!!",response);
+                            resolve();
+                        },
+                        error: function(error) {
+                            console.error('Save failed:', error);
+                            resolve();
+                        }
+                    });
+                }, 500);
+            });
+        }
+        clickNextImage();
+    }
+
+
+
+
+
+    function showOverlay() {
+        // 새로운 div를 생성하고 body의 직계 자식으로 추가합니다.
+        var overlayContainer = $('<div class="overlay-container"></div>').css({
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 9998  // .layout보다 낮은 z-index로 설정합니다.
+        });
+
+        var overlay = $('<div class="layout"></div>').css({
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 9999
+        });
+
+        overlayContainer.append(overlay);
+        $('body').append(overlayContainer);
+
+        // overlay div 안으로 들어가지 않도록 body의 스크롤을 막습니다.
+        $('body').css('overflow', 'hidden');
+    }
+
+    // 비동기 통신이 완료된 후에 실행되는 함수
+    function hideOverlay() {
+        // body의 스크롤을 다시 활성화합니다.
+        $('body').css('overflow', 'auto');
+
+        // .overlay-container 클래스를 가진 요소를 제거합니다.
+        $('.overlay-container').remove();
+    }
+
+</script>
+
+
+
+</body>
+
+</html>

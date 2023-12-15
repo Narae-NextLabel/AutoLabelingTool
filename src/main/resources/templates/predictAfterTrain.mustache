@@ -1,0 +1,104 @@
+{{>layout/predictAfterTrainH}}
+{{>layout/sideNav}}
+{{>layout/ceiling}}
+<div class="container-fluid py-4" style="padding-top: 13px!important;">
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <h6 class="text-black text-capitalize ps-3"
+                            style="font-size: 1.4rem;letter-spacing: 5px;margin-left: 50px;">
+                            예측된 데이터
+                        </h6>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+
+                    <div class="table-responsive p-0">
+                        <div id="prediction-area">
+                            <!--예측된 이미지 띄우기-->
+                        </div>
+                    </div>
+                    <form id="editForm" action="/goAnnotation" method="post">
+                        <div class="overlay-color grey-border">
+                            <a href="/goWorkspace2?projectIdx={{projectIdx}}" type="button" style="margin-right: 5px;"
+                            onmouseover="workShowTooltip('workspaceTooltip')"
+                            onmouseout="workHideTooltip('workspaceTooltip')">
+                            <div role="button" class="btnBox" id="workspaceBtn">
+                            <span style="color: #353535;">
+                                <i class="material-icons text-xl position-relative">home</i>
+                            </span>
+                            </div>
+                            <div id="workspaceTooltip">워크스페이스</div>
+                            </a>
+
+                            <a href="javascript:void(0);" id="go-to-annotation" onclick="goToEditForm()"
+                               onmouseover="workShowTooltip('editTooltip')" onmouseout="workHideTooltip('editTooltip')">
+                                <div role="button" class="btnBox">
+                            <span style="color: #353535;">
+                                <i class="material-icons text-xl position-relative">auto_fix_normal</i>
+                            </span>
+                                </div>
+                                <div id="editTooltip">수정하기</div>
+                                <span id="userName" style="display: none">{{userName}}</span>
+                                <input type="hidden" name="projectIdx" value="{{projectIdx}}">
+                                <input id="labelFolder" name="labelFolder" type="hidden">
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <h6 class="text-black text-capitalize ps-3"
+                            style="font-size: 1.4rem;letter-spacing: 5px;margin-left: 50px;">
+                            사진을 눌러 확인하기
+                        </h6>
+                    </div>
+                </div>
+
+                <div id="container">
+                    <div id="image-slider" class="sliderImgList">
+                        <!-- 이미지 슬라이드 내용 -->
+                        <div id="prevButton">
+                            <i class="fa-solid fa-caret-left fa-beat fa-2xl" style="color: #979ca5;"></i>
+                        </div>
+                        <div id="imageContainer" class="image-container"></div>
+                        <div id="nextButton">
+                            <i class="fa-solid fa-caret-right fa-beat fa-2xl" style="color: #979ca5;"></i>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="position-fixed bottom-10 end-1 z-index-2">
+        <div class="toast fade hide p-2 mt-2 bg-gradient-info" role="alert" aria-live="assertive" id="infoToast" aria-atomic="true"
+             style="opacity: .9;">
+            <div class="toast-header bg-transparent border-0">
+                <i class="material-icons text-white me-2">
+                    notifications
+                </i>
+                <span class="me-auto text-white font-weight-bold">Next Label </span>
+                <small class="text-white">방금전</small>
+                <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast" aria-label="Close"></i>
+            </div>
+            <hr class="horizontal light m-0">
+            <div class="toast-body text-white">
+                프로젝트가 성공적으로 추가되었습니다.
+            </div>
+        </div>
+    </div>
+
+    {{>layout/floor}}
+</div>
+{{>layout/sideSetting}}
+{{>layout/predictAfterTrainF}}

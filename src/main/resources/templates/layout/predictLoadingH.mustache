@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="assets/img/logos/NextLabelLogo.png">
+    <title>
+        Next Label
+    </title>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+
+    <style>
+
+
+        .btnBox{
+            background-color: whitesmoke;
+            padding: 5px;
+            border-radius: 5px;
+
+        }
+        .card-body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .overlay-color{
+            height: fit-content !important;
+            display: flex;
+            justify-content: flex-end;
+        }
+        #workspaceTooltip, #editTooltip {
+            visibility: hidden;
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 999;
+        }
+
+        #workspaceBtn:hover #workspaceTooltip {
+            visibility: visible;
+        }
+
+        #go-to-annotation:hover #editTooltip {
+            visibility: visible;
+        }
+
+
+        .table-responsive {
+            display: flex;
+            justify-content: center;
+            align-items: center; /* 세로 중앙 정렬을 위해 추가할 수 있음 */
+        }
+
+        #image-slider {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap; /* 화살표 버튼이 줄 바꿈되지 않도록 설정 */
+            overflow-x: auto; /* 화면 크기가 줄어들 때 스크롤바를 표시하여 화살표 버튼 보존 */
+            max-width: 100%; /* 이미지 슬라이더가 컨테이너를 벗어나지 않도록 최대 너비 설정 */
+        }
+
+        #image-slider button {
+            margin: 0 20px; /* 버튼의 좌우 여백을 설정합니다. */
+        }
+
+        .image-container {
+            display: flex;
+            white-space: nowrap;
+            padding: 10px;
+            overflow-x: auto; /* 이미지 컨테이너가 컨테이너를 벗어나지 않도록 스크롤바 표시 */
+        }
+
+        .image-container img {
+            max-width: 150px;
+            max-height: 150px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .my-4{
+            color: #747474;
+        }
+        .pb-3 {
+            padding-bottom: 1rem !important;
+        }
+
+        :root {
+            --color: #111;
+            --primary: #FFAB9D;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: grid;
+            font-family: Avenir, sans-serif;
+            color: var(--color);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .cta {
+            position: relative;
+            margin: auto;
+            padding: 19px 22px;
+            transition: all 0.2s ease;
+        }
+
+        .cta:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            border-radius: 28px;
+            background: whitesmoke;
+            width: 56px;
+            height: 56px;
+            transition: all 0.3s ease;
+        }
+
+        .cta span {
+            position: relative;
+            font-size: 16px;
+            line-height: 18px;
+            font-weight: 900;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            vertical-align: text-top;
+        }
+
+        .py-4{
+
+            padding-top: 0 !important;
+        }
+        .col-12{
+            margin-bottom: -14px;
+        }
+        .cta svg {
+            position: relative;
+            top: 3px;
+            margin-left: 10px;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke: lightgray;
+            stroke-width: 2;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+            vertical-align: text-top;
+        }
+
+
+
+
+
+        .bg-gradient-primary{
+            background-color: whitesmoke;
+        }
+
+        #button-container {
+            display: flex;
+            margin-left: auto;
+        }
+        #prediction-area {
+            position: relative;
+            display: inline-block;
+        }
+
+        #prediction-area img,
+        #prediction-area canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #prediction-area canvas {
+            pointer-events: none; /* 캔버스 위의 이미지 클릭 가능하도록 설정 */
+        }
+
+        #nextPageButtonHeader {
+            display: flex; /* 부모 요소를 플렉스 컨테이너로 설정하여 하위 요소들을 가로로 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            margin: 10px 20px ; /* 위, 우측, 아래 마진을 20px, 좌측 마진을 auto로 설정 */
+            justify-content: flex-end; /* 버튼 컨테이너를 오른쪽 정렬로 변경 */
+        }
+
+        #nextPageButton {
+            text-align: center; /* 버튼 안에 있는 텍스트를 가운데 정렬 */
+            font-size: 10px; /* 글꼴 크기를 10px로 설정 (원하는 크기로 조정) */
+        }
+
+        .btn h6 {
+            margin: 0; /* 기본 마진을 제거하여 텍스트를 중앙에 정렬 */
+        }
+
+        .float-left {
+            float: left; /* 좌측 정렬 */
+        }
+
+        .float-right {
+            float: right; /* 우측 정렬 */
+        }
+        a.btnPredict {
+            display: block;
+            position: relative;
+            float: left;
+            width: 120px;
+            padding: 0;
+            margin: 10px 20px 10px 0;
+            font-weight: 600;
+            text-align: center;
+            line-height: 50px;
+            color: #FFF;
+            border-radius: 5px;
+            transition: all 0.2s ;
+        }
+        .btnOrange {
+            background: #FFAA40;
+        }
+        .btnPurple {
+            background: #A74982;
+        }
+        .btnOrange.btnPush {
+            box-shadow: 0px 5px 0px 0px #A66615;
+        }
+        .btnPurple.btnPush {
+            box-shadow: 0px 5px 0px 0px #6D184B;
+        }
+        .btnPush:hover {
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+        .btnOrange.btnPush:hover {
+            box-shadow: 0px 0px 0px 0px #A66615;
+        }
+        .btnPurple.btnPush:hover {
+            box-shadow: 0px 0px 0px 0px #6D184B;
+        }
+
+    </style>
+
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">

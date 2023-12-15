@@ -1,0 +1,263 @@
+<!--   Core JS Files   -->
+
+
+<!-- Mustache.js 라이브러리 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"></script>
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- 좌우화살표 아이콘 -->
+<script src="https://kit.fontawesome.com/f01801e16a.js" crossorigin="anonymous"></script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+</script>
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="assets/js/material-dashboard.min.js?v=3.0.0"></script>
+
+<script>
+
+    // 서버 응답에서 'imageNames' 필드의 내용을 추출하여 배열에 할당
+
+
+</script>
+<script>
+
+    const classColors = {
+        "0": "#FF0000", // red
+        "1": "#0000FF", // blue
+        "2": "#008000", // green
+        "3": "#FFFF00", // yellow
+        "4": "#800080", // purple
+        "5": "#FFA500", // orange
+        "6": "#FFC0CB", // pink
+        "7": "#A52A2A", // brown
+        "8": "#808080", // grey
+        "9": "#EE82EE", // violet
+        "10": "#4B0082", // indigo
+        "11": "#00FF00", // lime
+        "12": "#808000", // olive
+        "13": "#00FFFF", // cyan
+        "14": "#FF00FF", // magenta
+        "15": "#800000", // maroon
+        "16": "#FFD700", // gold
+        "17": "#C0C0C0", // silver
+        "18": "#FFDAB9", // peach
+        "19": "#F5F5DC", // beige
+        "20": "#FFFFF0", // ivory
+        "21": "#008080", // teal
+        "22": "#000080", // navy
+        "23": "#FF7F50", // coral
+        "24": "#36454F", // charcoal
+        "25": "#00FFFF", // aqua
+        "26": "#0F52BA", // sapphire
+        "27": "#9966CC", // amethyst
+        "28": "#40E0D0", // turquoise
+        "29": "#E6E6FA", // lavender
+        "30": "#DDA0DD", // plum
+        "31": "#DA70D6", // orchid
+        "32": "#FA8072", // salmon
+        "33": "#B87333", // copper
+        "34": "#CD7F32", // bronze
+        "35": "#9B111E", // ruby
+        "36": "#00A36C", // jade
+        "37": "#50C878", // emerald
+        "38": "#98FB98", // mint
+        "39": "#007BA7", // cerulean
+        "40": "#E30B5D", // raspberry
+        "41": "#FFA474", // tangerine
+        "42": "#FFDB58", // mustard
+        "43": "#C3B091", // khaki
+        "44": "#FF00FF", // fuchsia
+        "45": "#DC143C", // crimson
+        "46": "#E0B0FF", // mauve
+        "47": "#FFF44F", // lemon
+        "48": "#32CD32", // limegreen
+        "49": "#FF69B4", // hotpink
+        "50": "#228B22", // forestgreen
+        "51": "#87CEEB", // skyblue
+        "52": "#FFDEAD", // navajowhite
+        "53": "#F5DEB3", // wheat
+        "54": "#9932CC", // darkorchid
+        "55": "#00BFFF", // deepskyblue
+        "56": "#B22222", // firebrick
+        "57": "#2E8B57", // seagreen
+        "58": "#DAA520", // goldenrod
+        "59": "#BA55D3", // mediumorchid
+        "60": "#DB7093", // palevioletred
+        "61": "#BDB76B", // darkkhaki
+        "62": "#66CDAA", // mediumaquamarine
+        "63": "#98FB98", // palegreen
+        "64": "#D8BFD8", // thistle
+        "65": "#CD853F", // peru
+        "66": "#FF6347", // tomato
+        "67": "#008B8B", // darkcyan
+        "68": "#F08080", // lightcoral
+        "69": "#FFA07A", // lightsalmon
+        "70": "#2F4F4F", // darkslategray
+        "71": "#00FA9A", // mediumspringgreen
+        "72": "#191970", // midnightblue
+        "73": "#8B4513", // saddlebrown
+        "74": "#8B008B", // darkmagenta
+        "75": "#BC8F8F", // rosybrown
+        "76": "#00CED1", // darkturquoise
+        "77": "#5F9EA0", // cadetblue
+        "78": "#B0E0E6", // powderblue
+        "79": "#B0C4DE" // lightsteelblue
+    };
+
+    // 전체 이미지에 대한 레이블 데이터 요청
+    function fetchAllLabelData() {
+        let modelName = '{{modelName}}';
+        $.ajax({
+            url: 'http://localhost:5000/getLabelDataFromEx',
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify({
+                path: `/src/main/resources/static/assets/labelingEx/${modelName}`
+            }),
+            success: function (data) {
+                classNames = data.classNames; // 전역 변수에 할당
+                if (Array.isArray(data.labelDataList)) {
+                    data.labelDataList.forEach((labelData, index) => {
+                        const imageContainer = document.querySelectorAll('.image-canvas-container')[index];
+                        const img = imageContainer.querySelector('img');
+                        const canvas = imageContainer.querySelector('.image-canvas');
+
+                        canvas.width = img.offsetWidth;
+                        canvas.height = img.offsetHeight;
+                        if (img.complete) {
+                            displayLabelData(labelData, canvas, img.offsetWidth, img.offsetHeight);
+                        } else {
+                            img.onload = () => {
+                                displayLabelData(labelData, canvas, img.offsetWidth, img.offsetHeight);
+                            };
+                        }
+                    });
+                } else {
+                    console.error('labelDataList is not an array');
+                }
+            },
+            error: function (error) {
+                console.error('Error fetching label data:', error);
+            }
+        });
+    }
+
+    function displayLabelData(labelData, canvas, imageWidth, imageHeight) {
+        const ctx = canvas.getContext('2d');
+        const textHeight = 13; // 텍스트 높이
+
+        labelData.split('\n').forEach(line => {
+            const parts = line.split(' ');
+            if (parts.length === 5) {
+                const [classId, xCenter, yCenter, bboxWidth, bboxHeight] = parts.map(Number);
+                const color = classColors[classId.toString()] || 'black';
+                const className = classNames[classId];
+
+                // 바운딩 박스 위치 및 크기 계산
+                const realX = (xCenter - bboxWidth / 2) * imageWidth;
+                const realY = (yCenter - bboxHeight / 2) * imageHeight;
+                const realWidth = bboxWidth * imageWidth;
+                const realHeight = bboxHeight * imageHeight;
+
+                // 바운딩 박스 그리기
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(realX, realY, realWidth, realHeight);
+
+                // 텍스트 박스 위치 조정
+                let textBoxX = realX;
+                let textBoxY = realY - textHeight;
+                if (textBoxY < 0) {
+                    // 이미지 영역 상단을 초과하는 경우, 바운딩 박스 내부에 배치
+                    textBoxY = realY;
+                }
+
+                // 텍스트 박스 너비 조정
+                ctx.font = '12px Arial';
+                const textWidth = ctx.measureText(className).width;
+                const averageCharWidth = calculateAverageCharWidth(ctx);
+                let textBoxWidth = adjustTextBoxWidth(ctx, className, averageCharWidth);
+                textBoxWidth = Math.min(textBoxWidth, realWidth); // 바운딩 박스 너비를 초과하지 않도록 조정
+
+                // 텍스트 박스 및 텍스트 그리기
+                const textColor = getTextColor(color);
+                ctx.fillStyle = color;
+                ctx.fillRect(textBoxX, textBoxY, textBoxWidth, textHeight);
+                ctx.fillStyle = textColor;
+                ctx.fillText(className, textBoxX + 3, textBoxY + textHeight - 2);
+            }
+        });
+    }
+
+
+    function calculateAverageCharWidth(context) {
+        const sampleTexts = ["ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz", "1234567890"];
+        let totalWidth = 0;
+        let totalCharCount = 0;
+
+        sampleTexts.forEach(text => {
+            totalWidth += context.measureText(text).width;
+            totalCharCount += text.length;
+        });
+
+        return totalWidth / totalCharCount; // 평균 글자 너비 반환
+    }
+
+    // 텍스트 박스 너비를 조정하는 함수
+    function adjustTextBoxWidth(context, className, averageCharWidth) {
+        const measuredWidth = context.measureText(className).width;
+        const estimatedWidth = className.length * averageCharWidth;
+        const paddingRatio = 0.3; // 30%
+        const addTextPadding=estimatedWidth*paddingRatio;
+
+        return measuredWidth < estimatedWidth ? estimatedWidth+addTextPadding : measuredWidth;
+    }
+
+    // 클래스 ID에 따른 색상 반환
+    function getClassColors(classId) {
+        return classColors[classId.toString()] || 'black'; // 색상이 정의되지 않은 클래스는 검은색으로 처리
+    }
+
+    // 밝기에 따라 텍스트 색상 결정
+    function getTextColor(hexColor) {
+        const [r, g, b] = hexToRgb(hexColor);
+        // 밝기 계산
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        console.log("brightness값 128보다 높으면 black:"+brightness)
+        return brightness > 128 ? 'black' : 'white';
+    }
+
+    // Hex 색상을 RGB로 변환하는 함수
+    function hexToRgb(hex) {
+        var bigint = parseInt(hex.replace('#', ''), 16);
+        var r = (bigint >> 16) & 255;
+        var g = (bigint >> 8) & 255;
+        var b = bigint & 255;
+
+        return [r, g, b];
+    }
+
+    fetchAllLabelData();
+
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

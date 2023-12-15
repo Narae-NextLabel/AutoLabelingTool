@@ -1,0 +1,458 @@
+<!--   Core JS Files   -->
+
+<div style="display: none;" id="projectIdx">{{projectIdx}}</div>
+<div style="display: none;" id="userName">{{userName}}</div>
+<div style="display: none;" id="trainPredictResponse">{{trainPredictResponse}}</div>
+<div style="display: none;" id="userId">{{userId}}</div>
+
+
+<!-- Mustache.js 라이브러리 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"></script>
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- 좌우화살표 아이콘 -->
+<script src="https://kit.fontawesome.com/f01801e16a.js" crossorigin="anonymous"></script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+</script>
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="assets/js/material-dashboard.min.js?v=3.0.0"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // JSON 데이터 파싱
+
+        let trainPredictResponse = JSON.parse($('#trainPredictResponse').text());
+        console.log(trainPredictResponse);
+        // 이미지 목록(images) 가져오기
+        const images = trainPredictResponse.imagePathList;
+        const classLabels =trainPredictResponse.trainClassNames;
+
+        let userName='{{userName}}'
+        let projectIdx='{{projectIdx}}'
+        let userId='{{userId}}';
+        let modelName='{{modelName}}'
+        let modelPath = `assets/models/${modelName}.pt`;
+        let resultFolderName ='{{resultFolderName}}';
+        let folderName = "C:/Users/smhrd/label/src/main/resources/static/"+userName+"/"+projectIdx+"/"+resultFolderName+"/labels";
+        $('#labelFolder').val(folderName);
+        // 데이터 유효성 검사
+        // AJAX 요청
+        console.log(modelPath)
+        console.log(userId)
+        $.ajax({
+            type: 'POST',
+            url: 'insertModel', // 서버의 모델 삽입 경로
+            data: {
+                modelName: modelName,
+                modelPath: modelPath,
+                userId: userId,
+            },
+            success: function(response) {
+                console.log('모델 삽입 성공:', response);
+                console.log(response.modelIdx)
+                console.log(classLabels)
+                // tClass 인스턴스를 서버에 저장
+                $.ajax({
+                    type: 'POST',
+                    url: 'insertClass',
+                    data:
+                            $.param({
+                                modelIdx: response.modelIdx,
+                                classNames: classLabels
+                            }, true)
+                    ,
+                    success: function(response) {
+                        console.log('클래스 삽입 성공:', response);
+                    },
+                    error: function(error) {
+                        console.error('클래스 삽입 실패:', error);
+                    }
+                });
+            },
+            error: function(error) {
+                console.error('모델 삽입 실패:', error);
+            }
+        });
+
+        // 이미지 슬라이더 관련 변수 초기화
+        let currentSetIndex = 0;
+        const imagesPerPage = 10;
+
+        const classColors = {
+            "0": "#FF0000", // red
+            "1": "#0000FF", // blue
+            "2": "#008000", // green
+            "3": "#FFFF00", // yellow
+            "4": "#800080", // purple
+            "5": "#FFA500", // orange
+            "6": "#FFC0CB", // pink
+            "7": "#A52A2A", // brown
+            "8": "#808080", // grey
+            "9": "#EE82EE", // violet
+            "10": "#4B0082", // indigo
+            "11": "#00FF00", // lime
+            "12": "#808000", // olive
+            "13": "#00FFFF", // cyan
+            "14": "#FF00FF", // magenta
+            "15": "#800000", // maroon
+            "16": "#FFD700", // gold
+            "17": "#C0C0C0", // silver
+            "18": "#FFDAB9", // peach
+            "19": "#F5F5DC", // beige
+            "20": "#FFFFF0", // ivory
+            "21": "#008080", // teal
+            "22": "#000080", // navy
+            "23": "#FF7F50", // coral
+            "24": "#36454F", // charcoal
+            "25": "#00FFFF", // aqua
+            "26": "#0F52BA", // sapphire
+            "27": "#9966CC", // amethyst
+            "28": "#40E0D0", // turquoise
+            "29": "#E6E6FA", // lavender
+            "30": "#DDA0DD", // plum
+            "31": "#DA70D6", // orchid
+            "32": "#FA8072", // salmon
+            "33": "#B87333", // copper
+            "34": "#CD7F32", // bronze
+            "35": "#9B111E", // ruby
+            "36": "#00A36C", // jade
+            "37": "#50C878", // emerald
+            "38": "#98FB98", // mint
+            "39": "#007BA7", // cerulean
+            "40": "#E30B5D", // raspberry
+            "41": "#FFA474", // tangerine
+            "42": "#FFDB58", // mustard
+            "43": "#C3B091", // khaki
+            "44": "#FF00FF", // fuchsia
+            "45": "#DC143C", // crimson
+            "46": "#E0B0FF", // mauve
+            "47": "#FFF44F", // lemon
+            "48": "#32CD32", // limegreen
+            "49": "#FF69B4", // hotpink
+            "50": "#228B22", // forestgreen
+            "51": "#87CEEB", // skyblue
+            "52": "#FFDEAD", // navajowhite
+            "53": "#F5DEB3", // wheat
+            "54": "#9932CC", // darkorchid
+            "55": "#00BFFF", // deepskyblue
+            "56": "#B22222", // firebrick
+            "57": "#2E8B57", // seagreen
+            "58": "#DAA520", // goldenrod
+            "59": "#BA55D3", // mediumorchid
+            "60": "#DB7093", // palevioletred
+            "61": "#BDB76B", // darkkhaki
+            "62": "#66CDAA", // mediumaquamarine
+            "63": "#98FB98", // palegreen
+            "64": "#D8BFD8", // thistle
+            "65": "#CD853F", // peru
+            "66": "#FF6347", // tomato
+            "67": "#008B8B", // darkcyan
+            "68": "#F08080", // lightcoral
+            "69": "#FFA07A", // lightsalmon
+            "70": "#2F4F4F", // darkslategray
+            "71": "#00FA9A", // mediumspringgreen
+            "72": "#191970", // midnightblue
+            "73": "#8B4513", // saddlebrown
+            "74": "#8B008B", // darkmagenta
+            "75": "#BC8F8F", // rosybrown
+            "76": "#00CED1", // darkturquoise
+            "77": "#5F9EA0", // cadetblue
+            "78": "#B0E0E6", // powderblue
+            "79": "#B0C4DE" // lightsteelblue
+        };
+
+
+
+        // 이미지를 미리보기 슬라이더에 표시하는 함수
+        function displayPreviewImages() {
+            const container = document.getElementById('imageContainer');
+            container.innerHTML = ''; // 컨테이너 초기화
+
+            const start = currentSetIndex * imagesPerPage;
+            const end = start + imagesPerPage;
+            const currentImages = images.slice(start, end);
+
+            currentImages.forEach((image, index) => {
+                const imgElement = document.createElement('img');
+                imgElement.src = image;
+
+                imgElement.onload = () => {
+                    // 이미지가 로드되면 실제 크기 확인
+                    console.log('Image width: ' + imgElement.naturalWidth);
+                    console.log('Image height: ' + imgElement.naturalHeight);
+                };
+
+                // 이미지 이름 추출 (URL에서 마지막 부분)
+                const imageName = image.split('/').pop();
+                imgElement.onclick = () => displayImage(start + index, imageName);
+                container.appendChild(imgElement);
+            });
+            $(document).ready(function() {
+                // Trigger a click event on the first image in the imageContainer
+                $('#imageContainer img:first').click();
+            });
+        }
+
+        function fetchLabelData(imageName, imageWidth, imageHeight) {
+            var projectIdx = document.getElementById('projectIdx').innerText;
+            var userName = document.getElementById('userName').innerText;
+            $.ajax({
+                url: 'http://localhost:5000/getLabelDataAfterTrain',
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify({
+                    projectIdx: projectIdx,
+                    userName: userName,
+                    path: "/src/main/resources/static/",
+                    imageName: imageName
+                }),
+                success: function (data) {
+                    console.log(data);
+                    displayLabelData(data.labelData, imageWidth, imageHeight); // 'labelData' is a label data set
+                },
+                error: function (error) {
+                    console.error('Error fetching label data:', error);
+                }
+            });
+        }
+
+        let textBoxPositions = {}; // 텍스트 박스 위치를 추적하는 객체
+
+        function resetTextBoxPositions() {
+            textBoxPositions = {};
+        }
+
+        function isOverlap(textBoxX, textBoxY, textWidth, textHeight) {
+            for (const key in textBoxPositions) {
+                const [existingX, existingY, existingWidth, existingHeight] = textBoxPositions[key];
+                // x축과 y축 방향으로 겹치는지 확인
+                if (textBoxX < existingX + existingWidth && textBoxX + textWidth > existingX &&
+                        textBoxY < existingY + existingHeight && textBoxY + textHeight > existingY) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // 평균 글자 크기를 계산하는 함수
+        function calculateAverageCharWidth(context) {
+            const sampleTexts = ["ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz", "1234567890"];
+            let totalWidth = 0;
+            let totalCharCount = 0;
+
+            sampleTexts.forEach(text => {
+                totalWidth += context.measureText(text).width;
+                totalCharCount += text.length;
+            });
+
+            return totalWidth / totalCharCount; // 평균 글자 너비 반환
+        }
+
+        // 텍스트 박스 너비를 조정하는 함수
+        function adjustTextBoxWidth(context, className, averageCharWidth) {
+            const measuredWidth = context.measureText(className).width;
+            const estimatedWidth = className.length * averageCharWidth;
+            const paddingRatio = 0.3; // 30%
+            const addTextPadding = estimatedWidth * paddingRatio;
+
+            return measuredWidth < estimatedWidth ? estimatedWidth + addTextPadding : measuredWidth;
+        }
+
+
+        function displayLabelData(labelData, imageWidth, imageHeight) {
+            resetTextBoxPositions(); // 텍스트 박스 위치 초기화
+            const detections = labelData.split('\n');
+            const context = document.getElementById('prediction-canvas').getContext('2d');
+            const averageCharWidth = calculateAverageCharWidth(context);
+
+
+            detections.forEach(detection => {
+                const parts = detection.split(' ');
+                if (parts.length === 5) {
+                    const [classId, xCenter, yCenter, bboxWidth, bboxHeight] = parts.map(Number);
+                    const color = classColors[classId.toString()];
+                    const className = classLabels[classId];
+
+                    // 바운딩 박스의 실제 좌표 및 크기 계산 (YOLO 형식에서 실제 픽셀 값으로 변환)
+                    const realX = (xCenter - bboxWidth / 2) * imageWidth;
+                    const realY = (yCenter - bboxHeight / 2) * imageHeight;
+                    const realWidth = bboxWidth * imageWidth;
+                    const realHeight = bboxHeight * imageHeight;
+
+                    //바운딩 박스 그리기
+                    context.strokeStyle = color;
+                    context.lineWidth = 2;
+                    context.strokeRect(realX, realY, realWidth, realHeight);
+
+                    const textHeight = 14; // 텍스트 높이
+                    let textBoxX = realX;
+                    let textBoxY = realY - textHeight;
+                    let textY = textBoxY + textHeight;
+
+                    const textWidth = context.measureText(className).width;
+                    let textBoxWidth = adjustTextBoxWidth(context, className, averageCharWidth);
+
+
+                    console.log(textBoxWidth)
+                    let insideBox = realY < textHeight; // 텍스트 박스가 내부에 있는지 여부
+
+                    if (insideBox) {
+                        textBoxY = realY;// 바운딩 박스가 상단 가장자리에 있는 경우
+                        textY = realY + textHeight - 2;
+                        textBoxWidth = Math.min(realWidth, textBoxWidth); // 라벨 박스 너비를 초과하지 않도록 조정
+                        textBoxX = Math.max(realX, textBoxX); // 라벨 박스 내부에 텍스트 박스 위치 조정
+                    }
+
+
+                    // while (isOverlap(textBoxX, textBoxY, textWidth, textHeight)) {
+                    //     textBoxX += textWidth; // 겹치는 경우 옆으로 이동
+                    // }
+
+
+                    // 텍스트 박스 위치 조정해서 그리기
+
+                    // 텍스트 색상 결정
+                    const textColor = getTextColor(color);
+                    context.fillStyle = color;
+                    context.fillRect(textBoxX, textBoxY, textBoxWidth, textHeight); // 수정된 너비로 텍스트 박스 그리기
+                    // 텍스트 박스 및 텍스트 그리기
+                    context.font = '14px Arial';
+                    context.fillStyle = textColor;
+
+                    // 텍스트 y 위치 조정
+                    context.fillText(className, textBoxX, textY);
+
+                    textBoxPositions[`${textBoxX},${textBoxY}`] = [textBoxX, textBoxY, textWidth, textHeight]; // 위치와 너비 저장;
+                    //labelBox가 이미지 상단에 있을 땐 text box를 레이블 박스 안으로 / 그 과정에서 조정안해도 되는 textbox들이 움직여서 그 위치까지 조정
+
+                }
+            });
+        }
+
+        const fixedHeight = 450; // 고정된 세로 길이;
+
+        function displayImage(index, imageName) {
+            const displayArea = document.getElementById('prediction-area');
+            displayArea.innerHTML = '';
+            resetTextBoxPositions();
+
+            const newImage = new Image();
+            newImage.src = images[index];
+            newImage.onload = function () {
+                let imgWidth = newImage.naturalWidth;
+                let imgHeight = newImage.naturalHeight;
+                // 원본 이미지의 비율 계산
+                const aspectRatio = imgWidth / imgHeight;
+
+                // 세로 길이를 고정된 크기로 설정하고 가로 길이를 비율에 맞게 조정
+                imgHeight = fixedHeight;
+                imgWidth = fixedHeight * aspectRatio;
+
+                // 이미지와 캔버스의 크기를 조정된 크기로 설정
+                newImage.width = imgWidth;
+                newImage.height = imgHeight;
+
+                // prediction-area의 크기를 조정된 이미지 크기에 맞춤
+                displayArea.style.width = imgWidth + 'px';
+                displayArea.style.height = imgHeight + 'px';
+
+                const canvas = document.createElement('canvas');
+                canvas.id = 'prediction-canvas';
+                canvas.width = imgWidth;
+                canvas.height = imgHeight;
+
+                displayArea.appendChild(newImage);
+                displayArea.appendChild(canvas);
+                console.log(imageName)
+                // 레이블 데이터 요청
+                fetchLabelData(imageName, imgWidth, imgHeight);
+            };
+        }
+
+        // Hex 색상을 RGB로 변환하는 함수
+        function hexToRgb(hex) {
+            var bigint = parseInt(hex.replace('#', ''), 16);
+            var r = (bigint >> 16) & 255;
+            var g = (bigint >> 8) & 255;
+            var b = bigint & 255;
+
+            return [r, g, b];
+        }
+
+        // 밝기에 따라 텍스트 색상 결정
+        function getTextColor(hexColor) {
+            const [r, g, b] = hexToRgb(hexColor);
+            // 밝기 계산
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+            console.log("brightness값 128보다 높으면 black:" + brightness)
+            return brightness > 128 ? 'black' : 'white';
+        }
+
+        // 이전 이미지 세트로 이동하는 함수
+        function previousSet() {
+            if (currentSetIndex > 0) {
+                currentSetIndex--;
+                displayPreviewImages();
+            }
+        }
+
+        // 다음 이미지 세트로 이동하는 함수
+        function nextSet() {
+            if ((currentSetIndex + 1) * imagesPerPage < images.length) {
+                currentSetIndex++;
+                displayPreviewImages();
+            }
+        }
+
+
+
+
+        // 초기 설정
+        document.getElementById('prevButton').onclick = previousSet;
+        document.getElementById('nextButton').onclick = nextSet;
+
+
+        displayPreviewImages();
+    });
+    function workShowTooltip(id) {
+        var tooltip = document.getElementById(id);
+        tooltip.style.visibility = 'visible';
+    }
+
+    function workHideTooltip(id) {
+        var tooltip = document.getElementById(id);
+        tooltip.style.visibility = 'hidden';
+    }
+    function showCustomToast(){
+        var customToast = $("#infoToast");
+        customToast.toast("show");
+        console.log("Custom Toast!");
+    }
+
+    $(document).ready(function() {
+
+        console.log("토스트연결!")
+        showCustomToast();
+    });
+    function goToEditForm() {
+        document.getElementById('editForm').submit();
+    }
+</script>
+
+
+</body>
+
+</html>

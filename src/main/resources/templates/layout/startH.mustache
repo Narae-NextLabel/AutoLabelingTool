@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="assets/img/logos/NextLabelLogo.png">
+    <title>
+        Next Label
+    </title>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"/>
+    <!-- Nucleo Icons -->
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet"/>
+    <link href="assets/css/nucleo-svg.css" rel="stylesheet"/>
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet"/><!-- 부트스트랩 CSS CDN 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          integrity="sha384-MXlRQWPmo+Ak3bQhMx4S5e7Sl8o3k70l4ZiSn83p1bx2cAY/xKpnPp1x1r4QbIov" crossorigin="anonymous">
+
+    <!-- 부트스트랩 JavaScript 및 Popper.js CDN 링크 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-eGnLGNWQZlQZNTn4VdAVXEK5PJqhCozrW8HRZv5yoN/6CPqVZYwn1V+eiBe2paD/y"
+            crossorigin="anonymous"></script>
+
+
+
+
+    <style>
+        .card {
+
+        }
+
+        .avatar-sm {
+            width: 64px !important;
+            height: 64px !important;
+            font-size: 0.875rem;
+        }
+
+        .avatar-sm.avatar-raised {
+            margin-top: -18px;
+        }
+
+        .table-fixed-header thead {
+            top: 0;
+            z-index: 2;
+        }
+
+        .tooltip-inner {
+            max-height: 200px; /* 원하는 최대 높이로 설정 */
+            overflow-y: auto;
+        }
+
+        #list-recom {
+            position: absolute;
+        }
+
+        .text-black.text-capitalize.ps-3 {
+            color: #747474;
+        }
+
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .table {
+            table-layout: auto;
+        }
+
+        .table td, .table th {
+            max-width: 100px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+
+        thead th {
+            position: sticky;
+            top: 0;
+            background-color: whitesmoke;
+        }
+
+        .bg-gradient-primary {
+            height: 90px;
+            background: whitesmoke;
+        }
+
+        #btnStart {
+            height: 44px;
+        }
+
+
+        .labelThead.text-white {
+            color: #656464 !important;
+            background-color: whitesmoke;
+            position: sticky;
+            z-index: 999;
+        }
+
+        .input-group {
+            top: 8px;
+            margin-left: -18px;
+            position: sticky;
+            z-index: 1000;
+        }
+
+        .containerBtn {
+
+        }
+
+        .tooltip {
+            border-radius: 5px;
+
+        }
+
+        .tooltip-inner {
+            background: #42424a;
+            color: white;
+        }
+
+        #modelName {
+            font-size: 16px;
+            font-weight: bold;
+            color: #0071E3;
+            margin-top: 14px;
+        }
+
+        #text-className {
+            font-size: 15px;
+        }
+        #text-className:hover{
+            color: #353535;
+        }
+
+        .btnModelName {
+            display: block;
+            position: static;
+            float: left;
+            width: 90%;
+            padding: 0;
+            margin: 10px 20px 10px 0;
+            font-weight: 400;
+            text-align: center;
+            line-height: 25px;
+            color: #FFF;
+            border-radius: 5px;
+            transition: all 0.2s;
+            background: #FFAA40;
+        }
+
+        .btnFade.btnOrange:hover {
+            background: #FF8E00;
+        }
+
+        .table-scrollable {
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .text-sm {
+            margin-left: 15px;
+        }
+
+        #list-recom {
+            position: absolute;
+        }
+
+
+        #autocomplete-list {
+            border: 1px solid #ccc;
+            max-height: 275px !important;
+            overflow-y: auto;
+            position: absolute;
+            margin-top: 40px;
+            z-index: 1000;
+        }
+
+        #autocomplete-list::-webkit-scrollbar {
+            display: none;
+        }
+
+
+        #autocomplete-list div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: white;
+            z-index: 1;
+        }
+
+        .input-group {
+            top: 8px;
+            margin-left: -18px;
+            position: sticky;
+
+        }
+
+
+        .suggestSearch {
+            color: grey !important;
+        }
+
+        #customH6 {
+            position: relative;
+        }
+
+        #customH6::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 5px;
+            position: absolute;
+            left: 0;
+            bottom: 0px;
+            background: rgba(200, 125, 220, .6);
+        }
+
+        #goCustomModel:hover #customH6::after {
+            width: 260px;
+            transition: width .3s;
+        }
+
+        #customDiv {
+            bottom: 30px;
+            right: 100px;
+            position: fixed;
+        }
+
+        .image-list-container {
+            display: none;
+            position: absolute;
+            left: 0; /* 왼쪽에 표시 */
+            width: 200px; /* 너비 조정 */
+            /* 추가적인 스타일링 (위치, 크기 등) */
+        }
+
+        .image-list-container.active {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">

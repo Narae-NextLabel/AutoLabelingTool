@@ -1,0 +1,297 @@
+{{>layout/Header}}
+{{>layout/sideNav}}
+{{>layout/ceiling}}
+<main>
+<!--메인 탑 -->
+<div class="headline"
+     style="background-color:#fbfbfb; border-top-left-radius: 0.75rem; border-bottom-right-radius: 0.75rem; border-bottom-left-radius: 0.75rem; border-bottom-right-radius: 0.75rem;">
+    <div class="main-mention">
+        <div class="mention-main">쉽고 빠른 라벨링 작업</div>
+        <div class="mention-sub"><span class="next-label">Next Label</span> 로 간편하게 시작보세요!</div>
+    </div>
+</div>
+
+<!-- 메인 바디 슬라이드 영역  -->
+<div class="body-slider "
+     style="height: calc(100vh); background-color: white; border-top-right-radius: 0.75rem; border-bottom-right-radius: 0.75rem; border-bottom-left-radius: 0.75rem; border-top-left-radius: 0.75rem;">
+
+    <!-- 이미지 비교 슬라이드 -->
+    <div class="splitview skewed">
+        <div class="panel bottomComparison">
+            <div class="contentComparison">
+                <div class="description" id="descriptionA">
+                    <h1 class="mentionA">After Labeling</h1>
+                    <p class="submentionA">This is how the image looks like before applying a labeling.</p>
+                </div>
+
+                <img src="assets/img/sliderImg/mainSliderImgA.png"style="height: 500px;width: 800px;left: 44%" alt="Original">
+            </div>
+        </div>
+
+        <div class="panel topComparison">
+            <div class="contentComparison">
+                <div class="description" id="descriptionB">
+                    <h1 class="mentionB">Before Labeling</h1>
+                    <p class="submentionB">This is how the image looks like after applying a labeling.</p>
+                </div>
+
+                <img src="assets/img/sliderImg/mainSliderImgB.jpg" style="height: 500px;width: 800px;left: 44%" alt="Duotone">
+            </div>
+        </div>
+
+        <div class="handler"></div>
+    </div>
+
+
+
+    <!-- 모델 보기 -->
+    <div class="grey-border mt-auto" style="height: 100px; width: 100%; background-color:#fbfbfb "></div>
+    <div class="mention-body" align="center"> 다양한 종류의 모델을 만나보세요 <br>
+        <!-- 모델 버튼 -->
+        {{^userInfo}}
+            <a class="btn-uni" href="/goSignIn"
+               type="button">자동 라벨링 사용하기</a>
+        {{/userInfo}}
+        {{#userInfo}}
+            <a class="btn-uni" href="/goStart "
+               type="button">자동 라벨링 사용하기</a>
+        {{/userInfo}}
+    </div>
+    <div class="grey-border mt-auto" style="height: 100px; width: 100%;"></div>
+
+
+    <!-- 이미지 무한 슬라이드 (라벨링 결과 이미지 인라인으로 삽입하기)-->
+    <section class="styling-wrap con">
+        <div class="styling-tv">
+            <div class="animation-list animationL">
+                <div class="img-list animationL cell">
+
+                    <div class="img-box cell" style="background-image: url('assets/img/20.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/21.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/22.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/23.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/24.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/25.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/26.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/27.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/28.jpg');"></div>
+
+                </div>
+
+                <div class="img-list-2nd animationL cell">
+                    <div class="img-box cell" style="background-image: url('assets/img/28.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/27.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/26.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/25.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/24.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/20.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/21.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/22.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/23.jpg');"></div>
+
+                </div>
+
+                <div class="img-list-3rd animationL cell">
+
+                    <div class="img-box cell" style="background-image: url('assets/img/20.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/21.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/22.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/23.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/24.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/25.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/26.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/27.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/28.jpg');"></div>
+
+                </div>
+
+                <div class="img-list-4th animationL cell">
+
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection1.png/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection2.jfif/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection3.jpeg/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection4.jfif/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection5.jfif/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection6.jfif/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection1.png/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection2.jfif/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection3.jpeg/');"></div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="styling-wrap con">
+        <div class="styling-tv">
+            <div class="animation-list animationR">
+                <div class="img-list animationR cell">
+
+                    <div class="img-box cell" style="background-image: url('assets/img/20.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/21.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/22.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/23.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/24.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/25.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/26.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/27.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/28.jpg');"></div>
+                    >
+
+                </div>
+
+                <div class="img-list-2nd animationR cell">
+
+                    <div class="img-box cell" style="background-image: url('assets/img/20.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/21.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/22.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/23.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/24.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/25.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/26.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/27.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/28.jpg');"></div>
+
+                </div>
+
+                <div class="img-list-3rd animationR cell">
+
+                    <div class="img-box cell" style="background-image: url('assets/img/20.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/21.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/22.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/23.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/24.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/25.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/26.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/27.jpg');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/28.jpg');"></div>
+
+                </div>
+
+                <div class="img-list-4th animationL cell">
+
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection1.png/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection2.jfif/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection3.jpeg/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection4.jfif/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection5.jfif/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection6.jfif/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection1.png/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection2.jfif/');"></div>
+                    <div class="img-box cell" style="background-image: url('assets/img/sliderImg/detection3.jpeg/');"></div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 서비스 소개 : -->
+    <!-- 서비스 소개  -->
+    <section class="ModelView-Wrap text-center">
+        <div class="model-card-header mt-6 mb-4">
+            <div class="card-body">
+                <div class="mention-body" align="center"> 직관적인 라벨링 프로세스</div>
+                <div class="mention-body-text card-text mt-7 mb-5 "><span class="next-model">하나, </span>&nbsp;
+                    누구나 쉽게 조작 가능한 수정 툴로 시간과 비용을 절약하세요.
+                    <span class="next-model">&nbsp;</span>
+                </div>
+                <div>
+                    <img src="assets/img/main1.jpg " style="width: 60%; height: 500px;box-shadow: rgba(0, 0, 0, 0.15) 8px 8px 8px;">
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class=" mention-body-text card-text mt-6 mb-6 "><span class="next-model">둘, </span>&nbsp;
+                    사용자가 원하는 객체를 미리 찾아볼 수 있어요.
+                    &nbsp;<span class="next-model">&nbsp</span>
+                </div>
+                <div style="margin-bottom: 70px;">
+                    <img src="assets/img/main2.jpg" style="width: 60%; margin-bottom: 25px; height: 500px;box-shadow: rgba(0, 0, 0, 0.15) 8px 8px 8px;"><br>
+                    <!-- 모델 버튼 -->
+                    {{^userInfo}}
+                        <a class="btn-uni" href="/goSignIn" style="max-width: fit-content;margin-top: 30px;"
+                           type="button">커스텀 모델 사용하기</a>
+                    {{/userInfo}}
+                    {{#userInfo}}
+                        <a class="btn-uni" href="/goUpload2" style="max-width: fit-content;margin-top: 30px;"
+                           type="button">커스텀 모델 사용하기</a>
+                    {{/userInfo}}
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- 수정 기능 소개 ; 동영상 설명 영역 -->
+    <section class="ModelView-Wrap text-center" style="background-color: black">
+        <div class="model-card-header mt-6 mb-4">
+            <div class="card-body">
+                <div class="mention-body-white mt-5" align="center">
+                    <span class="next-model">&nbsp;"&nbsp;</span>최소한의 라벨링 <span class="next-model">,&nbsp;</span>
+                    최대 빠른 결과 도출 <span class="next-model">&nbsp;"</span>
+
+                    <div class="mention-body-text-white card-text mt-3 mb-3">
+                        10개의 라벨링 만으로 오토 라벨링 가능
+                    </div>
+                    <img src="assets/img/mainGif.gif" class="card-img-top mt-7 mb-8" alt="동영상" style="height: 550px;width: 1000px;" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 워크스페이스 기능 소개 -->
+    <section class="ModelView-Wrap text-center">
+        <div class="model-card-header mt-0 mb-4">
+            <div class="card-body">
+                <div class="mention-body mt-6" align="center" style="margin-bottom: 50px;"> 사용자 맞춤형 워크스페이스 지원</div>
+            </div>
+
+            <div class="introBodyOne" style="height: 800px;">
+                <br>
+                <div class="introBOone"
+                     style="display: inline-flex;height: 350px;color: #FBFBFB;float:left;width: 80%;margin-left: 200px;margin-bottom: 100px;">
+                    <img src="assets/img/main3.jpg" style="width: 650px;margin-top: 10px;height: 350px;box-shadow: rgba(0, 0, 0, 0.15) 8px 8px 8px;">
+                    <div class="mention-body-text" style="margin: auto;">
+                        프로젝트 폴더 관리는 <br>
+                        <span class="next-label">워크스페이스</span>에서 확인해보세요
+                        <span class="next-model">&nbsp;</span></div>
+                </div>
+                <br><span></span>
+                <br>
+                <br>
+
+                <div class="introBTwo"
+                     style="display: inline-flex;height: 350px;color: #FBFBFB;float:left;width: 80%;margin-left: 200px;margin-bottom: 80px;">
+
+                        <div class="mention-body-text card-text mt-3 mb-3 " style="margin: auto;margin-top: 85px !important">
+                            대시보드를 통한 <span class="next-label">&nbsp;시각화</span>
+                            <br><span class="next-label">작업현황</span>을 한 눈에 확인해보세요
+
+
+                        </div>
+                    <img src="assets/img/main4.jpg" style="width: 50%;  margin-left: auto;box-shadow: rgba(0, 0, 0, 0.15) 8px 8px 8px;">
+                    </div>
+                </div>
+            <div class="emptySpace"><br><br><br><br><br><br> </div>
+            </div>
+    </section>
+
+        </div>
+</main>
+
+
+
+
+
+
+
+
+
+<!--{{>layout/floor}}-->
+
+{{>layout/sideSetting}}
+{{>layout/Footer}}
+
+

@@ -1,0 +1,964 @@
+<workarea>
+    <style>
+        #work-canvas {
+            position: absolute;
+            z-index: 1;
+        }
+
+        #canvas-container {
+            height:  721px;
+            display: block;
+            overflow: auto;
+            position: relative;
+        }
+    </style>
+
+    <div id="canvas-container">
+        <img id="img" src={ imgSelected.src } width="{ imgSelected.size.width }" height="{ imgSelected.size.height }" />
+        <div id="work-canvas" class={ imgSelected.name } width="{ imgSelected.size.width }" height="{ imgSelected.size.height }"></div>
+        <trackinglines></trackinglines>
+    </div>
+
+    <script>
+
+        var self = this;
+
+        $(document).on('click', function(event) {
+            deselectAll();
+            selectedElements = [];
+        });
+
+        $(document).keyup(function(e) {
+            if (e.keyCode == 46) {//del key
+                //Delete selected shape(s) with points
+                //Delete selected points
+                selectedElements.forEach(el => {
+                    el.selectize(false, {
+                        deepSelect: true
+                    }) //unselect first
+                    if (el.typ === 'point') {
+                        detachPoint(el.attr("for"), el.node.id); //delete it from store
+                        el.remove(); //remove parent svg node
+                        eventBus.trigger('removeLabelPanelTag');
+                    } else {
+
+                        detachShape(el.node.id); //delete it from store
+                        el.parent().remove(); //remove parent svg node
+                        eventBus.trigger('removeLabelPanelTag')
+
+                    }
+                    let checkboxLabels = [];
+                    let checkboxList = document.getElementById('checkboxList');
+                    let checkboxes = checkboxList.querySelectorAll('input[type="checkbox"]');
+
+                    let removedLabels = [];
+
+                    checkboxes.forEach(checkbox => {
+                        const label = checkbox.value;
+                        const isShapeWithLabel = labellingData[imgSelected.name].shapes.some(shape => shape.label === label);
+
+                        if (!isShapeWithLabel) {
+                            // labellingData[imgSelected.name].shapes에 없는 레이블은 삭제 대상
+                            removedLabels.push(label);
+
+                            // 해당 레이블과 관련된 checkbox, label, div 요소를 DOM에서 삭제
+                            let containerToRemove = document.getElementById(`checkbox-container-${label}`);
+
+                            if (containerToRemove) {
+                                containerToRemove.remove();
+                            }
+                        }
+                    });
+// removedLabels 배열에 속한 레이블들을 labellingData[imgSelected.name].shapes에서 제거
+                    labellingData[imgSelected.name].shapes = labellingData[imgSelected.name].shapes.filter(shape => !removedLabels.includes(shape.label));
+                    console.log("checkbox삭제",checkboxLabels);
+                    let bboxes = [];
+                    let classname = [];
+                    let height = 0;
+                    let width = 0;
+                    let filename = $('#work-canvas').attr('class');
+                    let username = $('#userName').text();
+                    var hiddenProjectIdxElement = document.getElementById("hiddenProjectIdx");
+                    var projectIdxValue = hiddenProjectIdxElement.innerText;
+                    height = $('#work-canvas').attr('height');
+                    width = $('#work-canvas').attr('width');
+                    let labelFolder = $('#labelFolder').text();
+                    let size = $('#zoom-scale').val();
+                    var resize = convertSizeStringToDecimal(size);
+                    if (resize > 1) {
+                        height = height / resize;
+                        width = width / resize;
+                    } else if (resize < 1) {
+                        height = (height / (resize * 10.0)) * 10.0;
+                        width = (width / (resize * 10.0)) * 10.0;
+                    }
+                    checkboxList = document.getElementById('checkboxList');
+                    selectedLabels = Array.from(checkboxList.querySelectorAll('input[type="checkbox"]:checked'))
+                        .map(checkbox => checkbox.value);
+                    changedLabels = selectedLabels;
+
+                    let result = labellingData[imgSelected.name].shapes.filter(shape => {
+                        return changedLabels.includes(shape.label);
+                    });
+
+                    for (let i = 0; i < result.length; i++) {
+                        let bbox = result[i].bbox;
+                        classname.push(result[i].label);
+                        bboxes.push([bbox.x, bbox.y, bbox.width, bbox.height]);
+                    }
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://127.0.0.1:5000/savetxt',  // Flask endpoint를 업데이트하세요
+                        contentType: 'application/json;charset=UTF-8',
+                        data: JSON.stringify({ classname: classname, bbox: bboxes, filename: filename, height: height, width: width, username: username, idx: projectIdxValue,labelFolder:labelFolder }),
+                        success: function(response) {
+                            console.log('저장완료!!');
+                        },
+                        error: function(error) {
+                            console.error('Error sending data:', error);
+                        },
+                    });
+
+                });
+                selectedElements = [];
+
+                //delete all the points related to a polygon
+                //show snakebar to inform
+            } else if (e.keyCode == 13) {//TODO change this
+                // checkboxList = document.getElementById('checkboxList');
+                // selectedLabels = Array.from(checkboxList.querySelectorAll('input[type="checkbox"]:checked'))
+                //     .map(checkbox => checkbox.value);
+                // changedLabels = selectedLabels;
+                // let result = labellingData[imgSelected.name].shapes.filter(shape => {
+                //     return changedLabels.includes(shape.label);
+                // });
+                // console.log(changedLabels)
+                // for (let i = 0; i < result.length; i++) {
+                //     let bbox = result[i].bbox;
+                //     classname.push(result[i].label);
+                //     bboxes.push([bbox.x, bbox.y, bbox.width, bbox.height]);
+                // }
+                self.update();
+                e.preventDefault();
+                e.stopPropagation();
+            }else if (e.key === 'a' && e.altKey) {//TODO change this
+                selectAll();
+                e.preventDefault();
+                e.stopPropagation();
+            } else if (e.key === 'c' && e.ctrlKey) {
+                copiedElements = [];
+                selectedElements.forEach(shape => {
+                    if (shape.hasClass('shape')) {
+                        var featurePoints = [];
+                        shape.siblings()
+                            .filter(point => point.typ == 'point')
+                            .forEach(point => {
+                                featurePoints.push({
+                                    'type': point.typ,
+                                    'rbox': point.rbox(myCanvas)
+                                });
+                            });
+                        copiedElements.push({
+                            'type': shape.type,
+                            'rbox': shape.rbox(myCanvas),
+                            'points': getPoints(shape),
+                            'featurePoints': featurePoints
+                        });
+                    }
+                })
+                e.preventDefault();
+                e.stopPropagation();
+            } else if (e.key === 'v' && e.ctrlKey) {
+                var currentImgData = labellingData[imgSelected.name];
+                if (copiedElements) {
+                    copiedElements.forEach(shape => {
+                        // Add shape data and any points into labellingData
+                        var shapeId = shape.type + currentImgData.shapeIndex++;
+                        var shapeData = attachShapeToImg(shapeId, shape.type, shape.rbox, shape.points);
+                        shape.featurePoints.forEach(point => {
+                            var pointId = shapeId + point.type + currentImgData.pointIndex++;
+                            attachPointToShape(shapeId, pointId, point.rbox);
+                        });
+                    });
+                }
+                self.update();
+                e.preventDefault();
+                e.stopPropagation();
+            } else if (e.key === 'ArrowLeft' && e.ctrlKey) {
+                selectedElements.forEach(el => {
+                    el.parent().dx(-1);
+                });
+                e.preventDefault();
+                e.stopPropagation();
+            } else if (e.key === 'ArrowRight' && e.ctrlKey) {
+                selectedElements.forEach(el => {
+                    el.parent().dx(1);
+                });
+                e.preventDefault();
+                e.stopPropagation();
+            } else if (e.key === 'ArrowUp' && e.ctrlKey) {
+                selectedElements.forEach(el => {
+                    el.parent().dy(-1);
+                });
+                e.preventDefault();
+                e.stopPropagation();
+            } else if (e.key === 'ArrowDown' && e.ctrlKey) {
+                selectedElements.forEach(el => {
+                    el.parent().dy(1);
+                });
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+
+        /**
+         * Updates workarea when self.update() is called or when workarea changes
+         */
+        this.on('update', function() {
+            myCanvas.clear();
+            drawOnCanvas();
+        })
+
+        /**
+         * Removes listeners when unmounting tag to prevent multiple instances of keyup and click from firing
+         */
+        this.on('unmount', function() {
+            $(document).off('keyup');
+            $(document).off('click');
+            eventBus.off('removeWorkAreaFeaturePoint');
+        });
+        let fixedHeight = 721;
+        let aspectRatio = imgSelected.size.width / imgSelected.size.height;
+        let newWidth = fixedHeight * aspectRatio;
+        let newHeight = fixedHeight;
+        this.on('mount', function() {
+            let id = "SvgjsRect";
+            let filename = $('#work-canvas').attr('class');
+            let username = $('#userName').text();
+            let height = newHeight
+            let width = newWidth
+            let labelFolder = $('#labelFolder').text();
+            var hiddenProjectIdxElement = document.getElementById("hiddenProjectIdx");
+            var projectIdxValue = hiddenProjectIdxElement.innerText;
+            let idNumber = 1009;
+            $.ajax({
+                type: 'POST',
+                url: 'http://127.0.0.1:5000/loadtxt',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify({
+                    filename: filename,
+                    height: height,
+                    width: width,
+                    username: username,
+                    idx: projectIdxValue,
+                    labelFolder:labelFolder
+                }),
+                success: function (response) {
+                    let receivedClassname = response.classname;
+                    let receivedBbox = response.bbox;
+
+                    for (let i = 0; i < receivedClassname.length; i++) {
+                        labellingData[imgSelected.name].shapes.push({
+                            attributes: [],
+                            bbox: {
+                                x: receivedBbox[i][0],
+                                y: receivedBbox[i][1],
+                                cx: receivedBbox[i][0] + (receivedBbox[i][2] / 2),
+                                cy: receivedBbox[i][1] + (receivedBbox[i][3] / 2),
+                                w: receivedBbox[i][2],
+                                width: receivedBbox[i][2],
+                                h: receivedBbox[i][3],
+                                height: receivedBbox[i][3]
+                            },
+                            defaultZoomScale: 1,
+                            featurePoints: [],
+                            id: id + idNumber.toString(),
+                            label: receivedClassname[i],
+                            points: [receivedBbox[i][0], receivedBbox[i][1], receivedBbox[i][2], receivedBbox[i][3]],
+                            tags: [],
+                            type: "rect",
+                            zoomScale: 1,
+                            class: receivedClassname[i].toLowerCase()
+                        });
+                        idNumber += 2;
+
+                    }
+
+                    $("#canvas-container img").css("opacity", appConfig.imageOpacity || 1)
+                        .css({"width": imgSelected.size.scaledWidth, "height": imgSelected.size.scaledHeight});
+
+                    // this is needed so that everytime workarea remounts the scale are correct
+                    $("#work-canvas").attr({"width": imgSelected.size.scaledWidth, "height": imgSelected.size.scaledHeight});
+
+                    myCanvas = new SVG('work-canvas').size(imgSelected.size.scaledWidth, imgSelected.size.scaledHeight)
+                    drawOnCanvas();
+                    console.log("불러오기")
+                    const selectedImageIndexElem = $('#selectedImageIndex');
+
+                    var $targetImage = $('#photolist img').filter('[label="' + filename + '"]');
+                    var currentIndex = $('#photolist img').index($targetImage);
+                    selectedImageIndexElem.text(currentIndex+1);
+                    const totalImagesElem = $('#totalImages');
+                    totalImagesElem.text($('#photolist img').length);
+                        // 현재 이미지의 인덱스 찾기
+
+
+
+                    let checkboxList = document.getElementById('checkboxList');
+                    checkboxList.innerHTML = ''; // 기존 체크박스 제거
+
+                    let uniqueLabels = [...new Set(receivedClassname)];
+                    checkboxList = document.getElementById('checkboxList');
+                    uniqueLabels.forEach((label) => {
+                        let labelContainer = document.createElement('div'); // div 태그 생성
+                        labelContainer.id = `checkbox-container-${label}`;
+                        let checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.value = label;
+                        checkbox.id = `checkbox-${label}`;
+                        checkbox.checked = true;
+                        checkbox.addEventListener('change', handleCheckboxChange);
+                        changedLabels.push(label);
+
+                        let labelElement = document.createElement('label');
+                        labelElement.htmlFor = `checkbox-${label}`;
+                        labelElement.appendChild(document.createTextNode(label));
+
+                        labelContainer.appendChild(checkbox);
+                        labelContainer.appendChild(labelElement);
+
+                        checkboxList.appendChild(labelContainer);
+                    });
+
+                    function handleCheckboxChange() {
+                        let selectedLabels = Array.from(checkboxList.querySelectorAll('input[type="checkbox"]:checked'))
+                            .map(checkbox => checkbox.value);
+                        changedLabels = selectedLabels;
+
+                        labellingData[imgSelected.name].shapes.forEach(shape => {
+                            let isLabelSelected = selectedLabels.includes(shape.label);
+                            let shapeElement = document.getElementById(shape.id);
+
+                            if (shapeElement) {
+                                if (isLabelSelected) {
+                                    shapeElement.style.display = 'block';
+                                    let labelTextElement = document.getElementById(`${shape.id}-label`);
+                                    let backgroundElement = document.getElementById(`${shape.id}-back`);
+                                    if (labelTextElement) {
+                                        labelTextElement.style.display = 'block';
+                                        backgroundElement.style.display = 'block';
+                                    }
+                                } else {
+                                    shapeElement.style.display = 'none';
+                                    let labelTextElement = document.getElementById(`${shape.id}-label`);
+                                    let backgroundElement = document.getElementById(`${shape.id}-back`);
+                                    if (labelTextElement) {
+                                        labelTextElement.style.display = 'none';
+                                        backgroundElement.style.display = 'none';
+                                    }
+                                }
+
+                                let checkboxElement = document.getElementById(`checkbox-${shape.label}`);
+                                if (checkboxElement) {
+                                    checkboxElement.checked = isLabelSelected;
+                                }
+                            }
+                        });
+                    }
+                    myCanvas.on('mousedown', function(event) {
+                        deselectAll();
+                        if (selectedTool && selectedTool.type !== "point") {
+                            var currentTool = selectedTool.create(event, myCanvas);
+                            moveOnlyOnMoveTool(currentTool);
+                            attachShapeListener(currentTool);
+
+                            if (currentTool.type !== 'polygon') currentTool.draw(event);
+                            selectedElement = currentTool;
+                        }
+                    });
+                    myCanvas.on('mouseup', function(event) {
+                        if (selectedTool && selectedElement) selectedElement.draw(event);
+                    });
+
+                    // Listen to label point removal
+                    eventBus.on('removeWorkAreaFeaturePoint', () => {
+                        self.update();
+                    })
+
+                    // Make sure label panel is initially hidden/empty
+                    eventBus.trigger('unmountLabelPanel');
+
+                    // Listen to label point selection
+                    eventBus.on('selectFeaturePoint', (f_point_id, parent_id) => {
+                        let el = SVG.get(f_point_id);
+                        deselectAll();
+                        riot.mount('label-panel', { id : parent_id, pointId : f_point_id })
+                        el.selectize({
+                            rotationPoint: false,
+                            points: []
+                        });
+
+                        selectedElements.push(el);
+
+                    })
+
+                },
+                error: function (error) {
+                    console.error('가져오기실패:', error);
+                }
+            });
+
+        });
+        function updateImageInfo(selectedIndex, totalImages) {
+            // 이미지 정보를 표시할 DOM 요소 가져오기
+
+
+            // 현재 선택된 이미지의 인덱스와 총 이미지 개수 업데이트
+            selectedImageIndexElem.textContent = selectedIndex + 1; // 인덱스는 0부터 시작하므로 +1
+            totalImagesElem.textContent = totalImages;
+        }
+        // 라벨값 저장
+        $('.toast-btnsave').on('click', function() {
+            // 중복 전송 방지를 위해 클릭 이벤트를 한 번만 받도록 설정
+            let bboxes = [];
+            let classname = [];
+            let height = 0;
+            let width = 0;
+            let filename = $('#work-canvas').attr('class');
+            let username = $('#userName').text();
+            var hiddenProjectIdxElement = document.getElementById("hiddenProjectIdx");
+            var projectIdxValue = hiddenProjectIdxElement.innerText;
+            height = $('#work-canvas').attr('height');
+            width = $('#work-canvas').attr('width');
+            let labelFolder = $('#labelFolder').text();
+            let size = $('#zoom-scale').val();
+            var resize = convertSizeStringToDecimal(size);
+            if (resize > 1) {
+                height = height / resize;
+                width = width / resize;
+            } else if (resize < 1) {
+                height = (height / (resize * 10.0)) * 10.0;
+                width = (width / (resize * 10.0)) * 10.0;
+            }
+            let checkboxList = document.getElementById('checkboxList');
+            let selectedLabels = Array.from(checkboxList.querySelectorAll('input[type="checkbox"]:checked'))
+                .map(checkbox => checkbox.value);
+            changedLabels = selectedLabels;
+
+            let result = labellingData[imgSelected.name].shapes.filter(shape => {
+                return changedLabels.includes(shape.label);
+            });
+
+            for (let i = 0; i < result.length; i++) {
+                let bbox = result[i].bbox;
+                classname.push(result[i].label);
+                bboxes.push([bbox.x, bbox.y, bbox.width, bbox.height]);
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://127.0.0.1:5000/savetxt',  // Flask endpoint를 업데이트하세요
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify({ classname: classname, bbox: bboxes, filename: filename, height: height, width: width, username: username, idx: projectIdxValue,labelFolder:labelFolder }),
+                success: function(response) {
+                    var $targetImage = $('#photolist img').filter('[label="' + filename + '"]');
+                    console.log($targetImage)
+                    if ($targetImage.length > 0) {
+                        // 현재 이미지의 인덱스 찾기
+                        var currentIndex = $('#photolist img').index($targetImage);
+
+                        // 다음 이미지의 인덱스 계산
+                        var nextIndex = (currentIndex + 1) % $('#photolist img').length;
+
+                        // 다음 이미지 클릭
+                        $('#photolist img').eq(nextIndex).click();
+                    }
+                    console.log('저장완료!!!');
+                },
+                error: function(error) {
+                    console.error('Error sending data:', error);
+                },
+            });
+            this.stop();
+        });
+
+        /**
+         * Attaches draw/resize listeners to shapes
+         * @param {SVGElement} shape - SVGElement to attach draw/resize listeners
+         */
+        function attachShapeListener(shape) {
+
+            shape.on('drawstart', function() {
+
+                alreadyDrawing = true;
+            });
+
+            shape.on('drawcancel', function() {});
+
+            shape.on('resizedone', function() {
+                updateShapeDetailInStore(shape.node.id, shape.rbox(myCanvas),
+                    getPoints(shape));
+            });
+
+            shape.on('drawstop', function() {
+                alreadyDrawing = false;
+                if (!selectedTool.validate(shape)) { //Don't draw an element on accidentle click
+                    shape.parent().remove();
+                    shape.remove();
+                } else {
+                    attachShapeData(shape);
+                    attachEvents(shape);
+                }
+            });
+        }
+
+        function attachEvents(currentTool) {
+            moveOnlyOnMoveTool(currentTool);
+
+            onMouse(currentTool.parent(), function(e) { //drag callback : doesn't fire on click
+                if (currentTool.node.id === e.target.id) {
+                    updateShapeDetailInStore(currentTool.node.id, currentTool.rbox(myCanvas), getPoints(
+                        currentTool));
+                    updateFeaturePoints(currentTool);
+                }
+            });
+            currentTool.parent().on('click', function(e) {
+                    if (selectedTool && selectedTool.type === "point") {
+                        var point = getPointToDraw(e, currentTool, myCanvas.node.getBoundingClientRect());
+                        attachPointToShape(currentTool.node.id, point.node.id, point.rbox(myCanvas));//ina store
+                        attachEventsToFeaturePoint(point, currentTool);
+                    } else if (e.altKey) { //deep select. Helpful in case of polygon
+                        deselectAll();
+                        currentTool.selectize({
+                            rotationPoint: false,
+                            deepSelect: true
+                        });
+                        selectedElements.push(currentTool);
+                    } else {
+                        if (!e.ctrlKey) { //deselect rest selected elements
+                            deselectAll();
+                            riot.mount('label-panel', { id : currentTool.node.id })
+                        }
+                        //select currnt element
+                        currentTool.selectize({
+                            rotationPoint: false
+                        });
+                        selectedElements.push(currentTool);
+                    }
+                var labelInput = document.getElementById("labelInput");
+                labelInput.focus();
+                labelInput.select();
+                    e.stopPropagation();
+                } //click call back
+            );
+        }
+
+        function moveOnlyOnMoveTool(el) {
+            el.on('mousedown', function(e) {
+                if (!selectedTool || selectedTool.type !== "move") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+        }
+
+        function attachEventsToFeaturePoint(f_point, parent) {
+            f_point.typ = 'point';
+            f_point.attr({
+                for: parent.node.id
+            })
+
+            onMouse(f_point, function(e) { //drag callback: doesn't fire on click
+                updateFeaturePointPosition(f_point);
+            });
+
+            f_point.on('click', function(e) {
+                if (!e.ctrlKey) { //deselect rest selected elements
+                    deselectAll();
+                    riot.mount('label-panel', { id : parent.node.id, pointId : f_point.node.id })
+                }
+                f_point.selectize({
+                    rotationPoint: false,
+                    points: []
+                });
+                selectedElements.push(f_point);
+                e.stopPropagation();
+            });
+        }
+
+        //This is a workaround of dragend event. This way it stops firing click event
+        function onMouse(shape, dragCB) {
+            var mousestate = 0;
+            shape.on('mousedown', function(e) {
+                mousestate = 1;
+                // TODO: Remove
+                shape.on('mousemove', function(e) {
+                    mousestate = 2;
+                });
+                shape.on('mouseup', function(e) {
+                    if (mousestate === 2) {
+                        dragCB && dragCB(e);
+                    }
+                    mousestate = 0;
+                });
+                e.stopPropagation();
+            });
+        }
+
+        function deselectAll() {
+            selectedElements.forEach(el => {
+                el.selectize(false, {
+                    deepSelect: true
+                });
+                el.selectize(false);
+            });
+            selectedElements = [];
+        }
+
+        function selectAll() {
+            labellingData[imgSelected.name].shapes.forEach(shape => {
+                let el = SVG.get(shape.id);
+                el.selectize({
+                    rotationPoint: false
+                });
+                selectedElements.push(el);
+            });
+        }
+
+        // When create, move, resize, delete
+        function attachShapeData(shape) { // update data with shape detail'
+            var points = getPoints(shape);
+            attachShapeToImg(shape.node.id, shape.type, shape.rbox(myCanvas), points);
+        }
+
+        function updateFeaturePoints(shape) {
+            $("[for=" + shape.node.id + "]").each((i, pointEl) => {
+                updateFeaturePointPosition(SVG.get($(pointEl).attr("id")));
+            });
+        }
+
+        function updateFeaturePointPosition(pointEl) {
+            updateFeaturePointInStore(pointEl.attr("for"), pointEl.id(), pointEl.rbox(myCanvas));
+        }
+
+        /**
+         * Returns the feature points stored in the shape
+         * @param {SVGElement} shape - shape SVGElement
+         */
+        function getPoints(shape) {
+            var points;
+
+            switch (shape.type) {
+                case "rect":
+                    var box = shape.rbox(myCanvas);
+                    return [box.x, box.y, box.w, box.h];
+                case "circle":
+                    var box = shape.rbox(myCanvas);
+                    return [box.cx, box.cy, shape.attr("r")];
+
+                case "polygon":
+                    var parentSvg = $('#'+shape.node.id).closest('svg');
+                    var calculatedPoints = [];
+                    var vector = {
+                        x: parseInt(parentSvg.attr("x"), 10) || 0,
+                        y: parseInt(parentSvg.attr("y"), 10) || 0
+                    }
+                    shape.array().value.forEach(ponitArr => {
+                        calculatedPoints.push([ponitArr[0] + vector.x, ponitArr[1] + vector.y]);
+                    });
+                    return calculatedPoints;
+            }
+        }
+
+        /**
+         * Draws all the shapes and points in the currrently selected image
+         */
+        function drawOnCanvas() {
+            for (var shapeIndex in labellingData[imgSelected.name].shapes) {
+                var shape = labellingData[imgSelected.name].shapes[shapeIndex];
+                drawShape(shape);
+
+            }
+
+
+        }
+        const classColors = [
+            "#FF0000",
+            "#0000FF",
+            "#008000",
+            "#FFFF00",
+            "#800080",
+            "#FFA500",
+            "#86454f",
+            "#A52A2A",
+            "#808080",
+            "#EE82EE",
+            "#4B0082",
+            "#00FF00",
+            "#808000",
+            "#00FFFF",
+            "#FF00FF",
+            "#800000",
+            "#FFD700",
+            "#a36262",
+            "#9c7c5d",
+            "#F5F5DC",
+            "#bebe67",
+            "#008080",
+            "#000080",
+            "#FF7F50",
+            "#36454F",
+            "#00FFFF",
+            "#0F52BA",
+            "#9966CC",
+            "#40E0D0",
+            "#E6E6FA",
+            "#DDA0DD",
+            "#DA70D6",
+            "#FA8072",
+            "#B87333",
+            "#CD7F32",
+            "#9B111E",
+            "#00A36C",
+            "#50C878",
+            "#98FB98",
+            "#007BA7",
+            "#E30B5D",
+            "#FFA474",
+            "#FFDB58",
+            "#9b8a70",
+            "#FF00FF",
+            "#DC143C",
+            "#E0B0FF",
+            "#FFF44F",
+            "#32CD32",
+            "#FF69B4",
+            "#228B22",
+            "#87CEEB",
+            "#f4bc6f",
+            "#bb975c",
+            "#9932CC",
+            "#00BFFF",
+            "#B22222",
+            "#2E8B57",
+            "#DAA520",
+            "#BA55D3",
+            "#DB7093",
+            "#BDB76B",
+            "#66CDAA",
+            "#98FB98",
+            "#D8BFD8",
+            "#CD853F",
+            "#FF6347",
+            "#008B8B",
+            "#F08080",
+            "#FFA07A",
+            "#2F4F4F",
+            "#00FA9A",
+            "#191970",
+            "#8B4513",
+            "#8B008B",
+            "#BC8F8F",
+            "#00CED1",
+            "#5F9EA0",
+            "#B0E0E6",
+            "#B0C4DE"
+        ]
+        const labelColorMap = {};
+
+        function getColorForLabel(label, important) {
+            // Convert the label name to a hash function to create a unique color index
+            const colorIndex = hashString(label) % generatedColors.length;
+            // If the label is already mapped, return the saved color
+            if (labelColorMap[label]) {
+                return labelColorMap[label];
+            } else {
+                // If it is an unmapped label, assign a new color and then map it
+                const color = generatedColors[colorIndex];
+                labelColorMap[label] = color;
+                if (important) {
+                    return color + ' !important';
+                } else {
+                    return color;
+                }
+            }
+        }
+
+        function hashString(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = (hash << 5) - hash + char;
+            }
+            // 양수로 만들기 위해 절대값 반환
+            return Math.abs(hash);
+        }
+
+        const generatedColors = generateColors(80, classColors);
+        // Function to create a new color from the given default color array
+        function generateColors(count, baseColors) {
+            const generated = [];
+
+            for (let i = 0; i < count; i++) {
+                const baseColor = baseColors[i % baseColors.length];
+
+                if (baseColor === undefined) {
+                    console.error(`Undefined baseColor at index ${i % baseColors.length}`);
+                    // 여기서 기본값을 지정하거나 건너뛰는 등의 처리를 추가할 수 있습니다.
+                    continue;
+                }
+
+                const newColor = modifyColor(baseColor, i);
+                generated.push(newColor);
+            }
+
+            return generated;
+        }
+
+        // Function to create a new color by adjusting the base color
+        function modifyColor(baseColor, index) {
+            const factor = 0.8; // adjust intensity
+            const offset = index * factor;
+
+            // Decompose the given color to get the RGB value
+            const [r, g, b] = hexToRgb(baseColor);
+
+            // Add an offset to each RGB and then combine them again to create a new color
+            const newColor = rgbToHex(
+                Math.min(255, Math.round(r + offset)),
+                Math.min(255, Math.round(g + offset)),
+                Math.min(255, Math.round(b + offset))
+            );
+
+            return newColor;
+        }
+
+        // Function to convert color in Hex format to RGB format
+        function hexToRgb(hex) {
+            const bigint = parseInt(hex.slice(1), 16);
+            const r = (bigint >> 16) & 255;
+            const g = (bigint >> 8) & 255;
+            const b = bigint & 255;
+            return [r, g, b];
+        }
+
+        // Function to convert color from RGB format to Hex format
+        function rgbToHex(r, g, b) {
+            return `#${(1 << 24 | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
+        }
+
+        function drawShape(shape) {
+
+            if (!shape) return;
+            var scale = imgSelected.size.imageScale;
+            var currentShape;
+
+            switch (shape.type) {
+                case "rect":
+                    var rect = myCanvas.nested()
+                        .rect(shape.points[2] * scale, shape.points[3] * scale)
+                        .move(shape.points[0] * scale, shape.points[1] * scale)
+                        .id(shape.id)
+                        .addClass('labelboxshape')
+                        .stroke(getColorForLabel(shape.label))
+                        .fill(getColorForLabel(shape.label,true))
+                        .resize();
+
+                    var labelNameText = myCanvas.text(shape.label)
+                        .move(shape.points[0] * scale, shape.points[1] * scale)
+                        .addClass('label shape')
+                        .id(shape.id+'-label')
+                        .fill('#ffffff')
+                        .font({
+                            family: 'Helvetica, Arial, sans-serif',
+                            size: 16  // 적절한 폰트 크기로 설정
+                        })
+                    console.log(getColorForLabel(shape.label));
+                    if (getColorForLabel(shape.label) === '#ffffeb'||getColorForLabel(shape.label)==='#eeffff') {
+                        labelNameText.fill('#000000');  // 검정색으로 변경
+                    }
+                    var textBBox = labelNameText.bbox();
+                    var textWidth = textBBox.width;
+                    var textHeight = textBBox.height;
+                    var backgroundRect = myCanvas.rect(textWidth,textHeight)
+                        .move(shape.points[0] * scale, shape.points[1] * scale)
+                        .fill(getColorForLabel(shape.label))
+                    //Add feature points
+                    currentShape = rect;
+                    rect.parent().add(rect);
+                    rect.parent().add(backgroundRect);
+                    rect.parent().add(labelNameText);
+
+                    rect.parent().draggable();
+                    // labelNameText 엘리먼트에 ID 부여
+                    backgroundRect.id(shape.id + '-back');
+                    labelNameText.id(shape.id + '-label');
+                    break;
+
+                case "circle":
+                    var circle = myCanvas.nested()
+                        .circle().radius(shape.points[2] * scale)
+                        .attr("cx", shape.points[0] * scale)
+                        .attr("cy", shape.points[1] * scale)
+                        .addClass('labelcircle shape')
+                        .id(shape.id)
+                        .resize();
+                    circle.parent().draggable();
+                    //Add feature points
+                    currentShape = circle;
+                    break;
+                /* case "ellipse":
+                    var ellipse = myCanvas.nested()
+                        .ellipse().radius(shape.points[2], shape.points[3])
+                        .move(shape.points[0],shape.points[1])
+                        .addClass('labelellipse shape')
+                        .resize();
+                    ellipse.parent().draggable();
+                    attachEvents(ellipse);
+                    //Add feature points */
+                case "polygon":
+                    var poly = myCanvas.nested()
+                        .polygon(scaleShapePoints(shape.points, scale, shape.type))
+                        //.move(shape.points[0],shape.points[1])
+                        .addClass('labelpolygon shape')
+                        .id(shape.id)
+                        .resize();
+                    poly.parent().draggable();
+                    //Add feature points
+                    currentShape = poly;
+                    break;
+                default:
+                    console.error('shape ' + shape.type + ' does not exist');
+                    break;
+            }
+            // Sanity check, in case currentShape is empty
+            if (currentShape) {
+                moveOnlyOnMoveTool(currentShape);
+                attachEvents(currentShape);
+                attachShapeListener(currentShape);
+                drawAllFeaturePoints(shape.featurePoints, currentShape);
+            }
+        }
+        /**
+         * Draws all the feature points in the shape according to current image scale and attachEventListeners to points
+         * @param {Array} fPoints - array of shape featurePoints
+         * @param {Object} parent - shape that contains the feature points
+         * @see getPoints
+         */
+        function drawAllFeaturePoints(fPoints, parent) {
+            let scaledFPoints = scaleFeaturePoints(fPoints, imgSelected.size.imageScale);
+            for (var fPointIndex in scaledFPoints) {
+                var fPoint = getPointToDraw(scaledFPoints[fPointIndex], parent, {
+                    x: 0,
+                    y: 0
+                });
+                fPoint.id(scaledFPoints[fPointIndex].id);
+                attachEventsToFeaturePoint(fPoint, parent);
+            }
+        }
+
+
+
+    </script>
+</workarea>

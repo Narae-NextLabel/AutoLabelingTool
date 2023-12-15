@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="assets/img/logos/NextLabelLogo.png">
+    <link href="https://codepen.io/jouanmarcel/pen/qBBawwv.css">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PRLM5STD53"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-PRLM5STD53');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4922790412146333" crossorigin="anonymous"></script>
+    <title>Next Label</title>
+    <style>
+
+
+        #modal.modal-overlay {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(1.5px);
+            -webkit-backdrop-filter: blur(1.5px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        #modal .modal-window {
+            background: rgb(255 255 255);
+            box-shadow: 0 8px 32px 0 rgb(4 4 4 / 37%);
+            backdrop-filter: blur(13.5px);
+            -webkit-backdrop-filter: blur(13.5px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            width: 600px;
+            max-height: 600px; /* Set a maximum height for scrolling */
+            overflow-y: auto; /* Add a vertical scrollbar if needed */
+            position: relative;
+            top: -100px;
+            padding: 10px;
+        }
+        #modal .close-area {
+            display: inline;
+            float: right;
+            padding-right: 10px;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px grey;
+            color: grey;
+        }
+        #modal .title h2 {
+            display: inline;
+        }
+
+        @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:600&display=swap");
+        @keyframes active {
+            from {
+                box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 10px 0px rgba(0, 0, 250, 0.6);
+            }
+            to {
+                box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
+            }
+        }
+
+
+        .grid {
+            max-width: 400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 150px 150px 50px;
+            align-items: center;
+            justify-content: center;
+            grid-gap: 40px 25px;
+        }
+
+        buttonAnno,
+        [role=button] {
+            -webkit-appearance: none;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            cursor: pointer;
+            width: 180px;
+            height: 40px;
+            background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+            border-radius: 30px;
+            border: 1px solid #8F9092;
+            box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 0 #CECFD1;
+            transition: all 0.2s ease;
+            font-family: "Source Sans Pro", sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #606060;
+            text-shadow: 0 1px #fff;
+            margin-bottom: 27px;
+            margin-left: 21px;
+            margin-top: 16px;
+        }
+        buttonAnno::-moz-focus-inner,
+        [role=button]::-moz-focus-inner {
+            border: 0;
+        }
+        buttonAnno > *,
+        [role=button] > * {
+            transition: transform 0.2s ease;
+        }
+        buttonAnno:hover:not([disabled]),
+        [role=button]:hover:not([disabled]) {
+            box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
+        }
+        buttonAnno:hover:not([disabled]) > *,
+        [role=button]:hover:not([disabled]) > * {
+            transform: scale(0.975);
+        }
+        buttonAnno:focus:not(:active),
+        [role=button]:focus:not(:active) {
+            animation: active 0.9s alternate infinite;
+            outline: none;
+        }
+        buttonAnno:active:not([disabled]),
+        [role=button]:active:not([disabled]) {
+            box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+        }
+        buttonAnno:active:not([disabled]) > *,
+        [role=button]:active:not([disabled]) > * {
+            transform: scale(0.95);
+        }
+        buttonAnno:disabled,
+        [role=button]:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        buttonAnno.icon,
+        [role=button].icon {
+            width: 50px;
+        }
+        buttonAnno.icon svg,
+        [role=button].icon svg {
+            margin-top: 3px;
+            width: 30px;
+            height: 30px;
+        }
+        #goEdu {
+            top: 705px;
+            right: 52px;
+            position: fixed;
+            -webkit-appearance: none;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            cursor: pointer;
+            width: 180px;
+            height: 54px;
+            background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+            border-radius: 30px;
+            border: 1px solid #8F9092;
+            box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 0 #CECFD1;
+            transition: all 0.2s ease;
+            font-family: "Source Sans Pro", sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #606060;
+            text-shadow: 0 1px #fff;
+            margin-bottom: 30px;
+            margin-left: auto;
+        }
+        /*//학습하러가기 버튼/*/
+        @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
+
+        #loading {
+            position: fixed;
+            background: rgba(0,0,0,0.8);
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: block;
+            opacity: 0.95;
+            z-index: 9999;
+        }
+
+        .loader {
+            width:500px;
+            margin:0 auto;
+            border-radius:10px;
+            border:4px solid transparent;
+            position:relative;
+            padding:1px;
+            bottom: -70px;
+        }
+        .loader:before {
+            content:'';
+            border:1px solid #fff;
+            border-radius:10px;
+            position:absolute;
+            top:-4px;
+            right:-4px;
+            bottom:-4px;
+            left:-4px;
+        }
+        .loader .loaderBar {
+            position:absolute;
+            border-radius:10px;
+            top:0;
+            right:100%;
+            bottom:0;
+            left:0;
+            background:#fff;
+            width:0;
+            animation:borealisBar 2s linear infinite;
+        }
+        #logoNL {
+            height: 100px;
+            width: auto;
+            display: block;
+            MARGIN: auto;
+            margin-top: 200px;
+        }
+        @keyframes loader {
+            0% {
+                width: 0;
+            }
+            20% {
+                width: 10%;
+            }
+            25% {
+                width: 24%;
+            }
+            43% {
+                width: 41%;
+            }
+            56% {
+                width: 50%;
+            }
+            66% {
+                width: 52%;
+            }
+            71% {
+                width: 60%;
+            }
+            75% {
+                width: 76%;
+            }
+            94% {
+                width: 86%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+        .progress-bar {
+            border-radius: 60px;
+            overflow: hidden;
+            width: 100%;
+        }
+        .progress-bar span {
+            display: block;
+        }
+
+        .bar {
+            background: rgba(0, 0, 0, 0.075);
+        }
+
+        .progress {
+            animation: loader 8s ease infinite;
+            background: white;
+            color: #fff;
+            padding: 5px;
+            width: 0;
+        }
+
+        .progress-bar {
+            left: 50%;
+            max-width: 35%;
+            position: absolute;
+            top: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            background: #3b3b3b !important;
+        }
+        .loaderNum {
+            text-align: center;
+            font-size: 20px;
+            color: white;
+            font-family: auto;
+            letter-spacing: 10px;
+            margin-top: 120px;
+        }
+        .loaderMent {
+            text-align: center;
+            font-size: 20px;
+            color: white;
+            font-family: auto;
+            letter-spacing: 10px;
+            margin-top: 250px;
+        }
+
+
+        .buttonEdu {
+            margin-top: 447px;
+            position: relative;
+            padding: 0;
+            width: 150px;
+            height: 150px;
+            border: 4px solid #888888;
+            outline: none;
+            background-color: #f4f5f6;
+            border-radius: 40px;
+            box-shadow: -6px -20px 35px #ffffff, -6px -10px 15px #ffffff, -20px 0px 30px #ffffff, 6px 20px 25px rgba(0, 0, 0, 0.2);
+            transition: 0.13s ease-in-out;
+            cursor: pointer;
+            right: -40px;
+        }
+        .buttonEdu:active {
+            box-shadow: none;
+        }
+        .buttonEdu:active .button__content {
+            box-shadow: none;
+        }
+        .buttonEdu:active .button__content .button__text, .button:active .button__content .button__icon {
+            transform: translate3d(0px, 0px, 0px);
+        }
+        .button__content {
+            position: relative;
+            display: grid;
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            box-shadow: inset 0px -8px 0px #dddddd, 0px -8px 0px #f4f5f6;
+            border-radius: 40px;
+            transition: 0.13s ease-in-out;
+            z-index: 1;
+        }
+        .button__icon {
+            position: relative;
+            display: flex;
+            transform: translate3d(0px, -4px, 0px);
+            grid-column: 4;
+            align-self: start;
+            justify-self: end;
+            width: 18px;
+            height: 18px;
+            transition: 0.13s ease-in-out;
+        }
+        .button__icon svg {
+            width: 32px;
+            height: 32px;
+            fill: #aaaaaa;
+        }
+        .button__text {
+            position: relative;
+            transform: translate3d(0px, -4px, 0px);
+            margin: 0;
+            align-self: end;
+            grid-column: 1/5;
+            grid-row: 2;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            background-color: #888888;
+            color: #353535;
+            text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5);
+            -webkit-background-clip: text;
+            -moz-background-clip: text;
+            background-clip: text;
+            transition: 0.13s ease-in-out;
+        }
+
+        .creditsEdu {
+            margin-top: 24px;
+        }
+        .credits__reference {
+            display: inline-block;
+            border-bottom: 1px solid transparent;
+            color: #0099ff;
+            text-decoration: none;
+            transition: ease-in 0.13s;
+        }
+        .credits__reference:hover {
+            border-bottom-color: #0099ff;
+        }
+    </style>
+    <link rel="stylesheet" href="tool/css/style.min.css">
+    <link rel="stylesheet" href="tool/css/slider.1.min.css">
+    <link rel="stylesheet" href="tool/css/tags.min.css">
+    <link rel="stylesheet" href="tool/css/svg.select.min.css">
+    <link rel="stylesheet" href="tool/css/svg.min.css">
+    <link rel="stylesheet" href="tool/css/jquery-confirm.min.css">
+    <link rel="stylesheet" href="tool/css/bootstrap.min.css">
+    <link rel="stylesheet" href="tool/css/snackbar.min.css">
+    <link rel="stylesheet" href="tool/css/menu.min.css">
+    <link rel="stylesheet" href="tool/css/imglabfonts.css">
+    <link rel="stylesheet" href="tool/css/jquery-editable-select.min.css">
+    <link rel="stylesheet" href="tool/css/taggle.min.css">
+
+    <script src="tool/js/thirdparty/jquery.min.js"></script>
+    <script src="tool/js/thirdparty/jquery-confirm.min.js"></script>
+    <script src="tool/js/thirdparty/bootstrap.min.js"></script>
+    <script src="tool/js/thirdparty/riot.min.js"></script>
+
+    <script src="tool/js/thirdparty/Blob.js"></script>
+    <script src="tool/js/thirdparty/FileSaver.min.js"></script>
+    <script src="tool/js/thirdparty/fxp.js"></script>
+    <script src="tool/js/thirdparty/jquery-ui.min.js"></script>
+    <script src="tool/js/thirdparty/nimn.js"></script>
+    <script src="tool/js/thirdparty/jquery-editable-select.min.js"></script>
+    <script src="tool/js/thirdparty/taggle.min.js"></script>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <script>
+        let changedLabels = [];
+
+        const totalImagesElem = $('#totalImages');
+        totalImagesElem.text($('#photolist img').length);
+
+    </script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">
+<div class="layout">

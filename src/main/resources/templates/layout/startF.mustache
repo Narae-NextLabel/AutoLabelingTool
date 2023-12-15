@@ -1,0 +1,632 @@
+<!--   Core JS Files   -->
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="assets/js/plugins/chartjs.min.js"></script>
+<script>
+    var ctx = document.getElementById("chart-bars").getContext("2d");
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["M", "T", "W", "T", "F", "S", "S"],
+            datasets: [{
+                label: "Sales",
+                tension: 0.4,
+                borderWidth: 0,
+                borderRadius: 4,
+                borderSkipped: false,
+                backgroundColor: "rgba(255, 255, 255, .8)",
+                data: [50, 20, 10, 22, 50, 10, 40],
+                maxBarThickness: 6
+            },],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 500,
+                        beginAtZero: true,
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                        color: "#fff"
+                    },
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+
+
+    var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+    new Chart(ctx2, {
+        type: "line",
+        data: {
+            labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: "Mobile apps",
+                tension: 0,
+                borderWidth: 0,
+                pointRadius: 5,
+                pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                pointBorderColor: "transparent",
+                borderColor: "rgba(255, 255, 255, .8)",
+                borderColor: "rgba(255, 255, 255, .8)",
+                borderWidth: 4,
+                backgroundColor: "transparent",
+                fill: true,
+                data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+                maxBarThickness: 6
+
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+
+    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+
+    new Chart(ctx3, {
+        type: "line",
+        data: {
+            labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: "Mobile apps",
+                tension: 0,
+                borderWidth: 0,
+                pointRadius: 5,
+                pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                pointBorderColor: "transparent",
+                borderColor: "rgba(255, 255, 255, .8)",
+                borderWidth: 4,
+                backgroundColor: "transparent",
+                fill: true,
+                data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                maxBarThickness: 6
+
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        display: true,
+                        padding: 10,
+                        color: '#f8f9fa',
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+</script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+</script>
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="assets/js/material-dashboard.min.js?v=3.0.0"></script>
+
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport"
+      content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="static/css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="static/css/test2.css"/>
+<script type="text/javascript" src="static/js/test2.js"></script>
+
+<script>
+
+
+    function initializeTooltip(element, modelIdx, placement) {
+        console.log("마우스오버한 모델 아이디엑스"+modelIdx);
+        $.ajax({
+            url: 'getClassNamesByModelIdx',
+            method: 'POST',
+            data: {modelIdx: modelIdx},
+            success: function (modelClasses) {
+                console.log("요청, 응답 성공");
+
+                // 툴팁 내용을 좀 더 가독성 있게 포맷팅
+                const formattedContent = modelClasses.map(className => `<p class="mb-0">${className}</p>`).join('');
+
+                // Bootstrap 툴팁 설정
+                $(element).attr('data-original-title', formattedContent).tooltip({
+                    title: formattedContent,
+                    placement: placement,
+                    trigger: 'manual',
+                    html: true,
+                    autohide: false,
+                    boundary: 'viewport', // 추가: 툴팁이 뷰포트 내에서 스크롤되도록 설정
+                    template: '<div class="tooltip" role="tooltip"><div class="tooltip-inner"></div></div>', // 추가: 툴팁 템플릿 설정
+                    delay: {
+                        "show": 500, "hide": 1500
+                    }
+                }).tooltip('show');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // 오류 발생 시 처리
+                console.error("Error:", textStatus, errorThrown);
+            }
+        });
+    }
+
+    let tooltipTimer;
+    $(document).on('mouseover', '#text-className', function () {
+        const modelIdx = $(this).data('model-idx');
+        const placement = $(this).data('tooltip-placement') || 'right';
+
+        // 툴팁 생성 또는 업데이트
+        initializeTooltip(this, modelIdx, placement);
+    });
+
+    $(document).on('mouseover', '.tooltip', function () {
+        // 툴팁 내부에 마우스가 있으면 숨기는 타이머를 제거input-group input-group-outline
+        clearTimeout(tooltipTimer);
+    });
+    $(document).on('mouseleave', '.tooltip', function () {
+        $('.tooltip').tooltip('hide');
+    });
+    $(document).on('mouseleave','#text-className', function () {
+        console.log("마우스떠나기 ");
+
+        // 1500 밀리초(1.5초) 후에 툴팁을 숨김
+        tooltipTimer = setTimeout(() => {
+            $('.tooltip').tooltip('hide');
+        }, 500);
+    });
+
+
+    var originalList = document.getElementById('originalList');
+    var classList = [];
+        {{#tClass}}
+        classList.push("{{className}}");
+        {{/tClass}}
+
+    // 현재 선택된 자동완성 항목의 인덱스를 저장하는 변수
+    var selectedSuggestionIndex = -1;
+
+    // 자동완성 및 리스트 변경을 담당하는 JavaScript 코드
+    function getAutoComplete() {
+        // 사용자가 입력한 검색어 가져오기
+         console.log("검색어들어옴")
+        var searchInput = document.getElementById('searchInput');
+        var userInput = searchInput.value.toLowerCase();
+
+
+        // 검색어와 일치하는 클래스명 필터링
+        var filteredList = classList.filter(function (className) {
+            return className.toLowerCase().includes(userInput);
+        });
+
+        // 자동완성 결과를 표시할 엘리먼트 가져오기
+        var autocompleteList = document.getElementById('autocomplete-list');
+
+
+
+        // 결과를 화면에 표시
+        autocompleteList.innerHTML = '';
+        var addedClasses = new Set();
+        function createSuggestion(className) {
+            var autocompleteList = document.getElementById('autocomplete-list')
+            if (!addedClasses.has(className)) {
+                addedClasses.add(className);
+                var suggestion = document.createElement('div');
+                var lists = document.getElementById('list-recom');
+                var searchInput = document.getElementById('searchInput');
+                searchInput.addEventListener('input', function () {
+                    if (searchInput.value === '') {
+                        lists.style.display = 'none';
+                    } else {
+
+                        lists.style.display = 'block';
+                    }
+                });
+
+                suggestion.classList.add('suggestSearch');
+                suggestion.innerHTML = className;
+            }
+            !lists.addEventListener('click', function () {
+                lists.style.display = 'none';
+            })
+
+            // 마우스로 호버할 때 스타일 변경
+            suggestion.addEventListener('mouseover', function () {
+                suggestion.style.backgroundColor = '#eee'; // 색 변경
+                suggestion.style.cursor = 'pointer'; // 커서 모양 변경
+            });
+
+            // 마우스가 벗어날 때 스타일 원래대로 변경
+            suggestion.addEventListener('mouseout', function () {
+                suggestion.style.backgroundColor = ''; // 기본 색으로 복원
+            });
+
+            // 클릭 시 이벤트 처리
+            suggestion.addEventListener('click', function () {
+                // 검색어를 선택한 경우, 해당 검색어로 리스트를 업데이트
+                updateList(className);
+
+                // 연관 검색어 창 숨기기 (여기에서는 display를 none으로 설정)
+                autocompleteList.innerHTML = '';
+                // autocompleteList.style.display = 'none';
+
+
+                // 입력 필드에 선택한 검색어 설정 및 이벤트를 발생시켜 검색을 다시 시작
+                var inputField = document.getElementById('searchInput');
+                inputField.value = '';
+
+                // inputField.value가 비어있을 때만 getAutoComplete 함수 호출
+                createSuggestion();
+                searchInput.focus();
+            });
+            return suggestion;
+        }
+
+        searchInput.addEventListener('keydown', function (e) {
+            var autocompleteList = document.getElementById('autocomplete-list');
+            var suggestions = autocompleteList.querySelectorAll('.suggestSearch');
+
+            // Arrow Up 키
+            if (e.key === '') {
+                e.preventDefault(); // 기본 동작 방지
+
+                // 선택된 항목 인덱스 감소
+                selectedSuggestionIndex = Math.max(selectedSuggestionIndex - 1, 0);
+
+                // 선택된 항목 강조 표시
+                updateSelectedSuggestion(suggestions);
+            }
+            // Arrow Down 키
+            else if (e.key === 'ArrowDown') {
+                e.preventDefault(); // 기본 동작 방지
+
+                // 선택된 항목 인덱스 증가
+                selectedSuggestionIndex = Math.min(selectedSuggestionIndex + 1, suggestions.length - 1);
+
+                // 선택된 항목 강조 표시
+                updateSelectedSuggestion(suggestions);
+            }
+            // Enter 키
+            else if (e.key === 'Enter') {
+                e.preventDefault(); // 기본 동작 방지
+
+                // 선택된 항목이 있으면 해당 항목 선택
+                if (selectedSuggestionIndex !== -1) {
+                    suggestions[selectedSuggestionIndex].click();
+                }
+            }
+        });
+        filteredList.forEach(function (className, index) {
+            var suggestion = createSuggestion(className);
+            autocompleteList.appendChild(suggestion);
+        });
+
+
+        // 동적으로 자동완성 창의 높이를 설정
+        var tbodyHeight = document.querySelector('tbody').offsetHeight;
+        autocompleteList.style.maxHeight = tbodyHeight + 'px';
+
+        // 동적으로 자동완성 창의 너비를 설정
+        var tbodyWidth = document.querySelector('tbody').offsetWidth;
+        autocompleteList.style.width = tbodyWidth + 'px';
+
+
+    }
+
+    // 항목 선택 함수
+    function selectSuggestion(direction) {
+        var suggestions = document.querySelectorAll('#autocomplete-list div');
+
+        // 선택된 항목의 스타일 초기화
+        if (selectedSuggestionIndex >= 0) {
+            suggestions[selectedSuggestionIndex].classList.remove('selected');
+        }
+
+        // 항목 인덱스 업데이트
+        selectedSuggestionIndex += direction;
+
+        // 인덱스 범위 조정
+        if (selectedSuggestionIndex < 0) {
+            selectedSuggestionIndex = suggestions.length - 1;
+        } else if (selectedSuggestionIndex >= suggestions.length) {
+            selectedSuggestionIndex = 0;
+        }
+
+        // 선택된 항목에 스타일 적용
+        suggestions[selectedSuggestionIndex].classList.add('selected');
+    }
+
+    // 엔터 키 이벤트 처리
+    document.getElementById('searchInput').addEventListener('Enter', function (event) {
+        if (event.key === 'Enter') {
+            // Enter 키를 눌렀을 때, 현재 선택된 항목으로 리스트를 업데이트
+            var selectedSuggestion = getSelectedSuggestion();
+            if (selectedSuggestion !== null) {
+                updateList(selectedSuggestion);
+            }
+        }
+    });
+    document.getElementById('autocomplete-list').addEventListener('keyup', function (event) {
+
+        if (event.key === 'ArrowUp') {
+            // 방향키 위로 이동
+            selectSuggestion(-1);
+        } else if (event.key === 'ArrowDown') {
+            // 방향키 아래로 이동
+            selectSuggestion(1);
+        }
+    });
+
+    // 현재 선택된 항목 가져오는 함수
+    function getSelectedSuggestion() {
+        var suggestions = document.querySelectorAll('#autocomplete-list div');
+        if (selectedSuggestionIndex >= 0 && selectedSuggestionIndex < suggestions.length) {
+            return suggestions[selectedSuggestionIndex].innerText;
+        }
+        return null;
+    }
+
+    // 리스트 업데이트 함수
+    function updateList(selectedClassName) {
+
+        console.log('Selected Class:', selectedClassName);
+
+        $.ajax({
+            url: 'findModelByClassName',
+            method: 'POST',
+            data: {'className':selectedClassName},
+            success: function (modelList) {
+
+                var html = "";
+                for(var i = 0; i < modelList.length; i++){
+                if (classList.includes(selectedClassName)) {
+
+                    html += `
+            <tr class="font-weight-bolder">
+
+                <td>
+                    <p class="text-xs font-weight-bold mb-0">\</p>
+                        <div class="tooltip-container">
+                            <a href="/goUpload?modelName=${modelList[i].modelName}" class="model-link"
+                                data-model-idx="">
+                                <p id="modelName">${modelList[i].modelName}</p>
+                             </a>
+                        </div>
+                </td>
+                <td class="align-middle text-center text-sm">
+                                           무료
+                                        </td>
+                <td class="align-middle text-center font-weight-bold">
+ <div class="tooltip-container">
+                    <span id="text-className" data-model-idx="${modelList[i].modelIdx}" class="font-weight-bolder">${selectedClassName}</span>
+</div>
+                </td>
+                  <td class="align-middle text-center text-sm">
+                                            <button class="example-btn badge badge-sm bg-gradient-success" data-model-name="${modelList[i].modelName}">예시 확인</button>
+                                            <div class="image-list-container" id="image-list-${modelList[i].modelIdx}"></div>
+                                        </td>
+
+            </tr>`;
+
+                    // 툴팁 초기화
+                    initializeTooltip(document.getElementById(`text-className-${i}`), selectedClassName, 'right');
+                }
+            }
+                originalList.innerHTML = html;
+            }
+        })
+
+
+        // 선택된 항목의 스타일 초기화
+        var suggestions = document.querySelectorAll('#autocomplete-list div');
+        suggestions.forEach(function (suggestion) {
+            suggestion.classList.remove('selected');
+        });
+
+        // 선택된 항목 인덱스 초기화
+        selectedSuggestionIndex = -1;
+    }
+
+    // 라벨링 이미지 예시
+    document.querySelectorAll('.example-btn').forEach(item => {
+        item.addEventListener('click', function() {
+            const modelName = this.getAttribute('data-model-name');
+            loadImageList(modelName);
+        });
+    });
+
+    function loadImageList(modelName) {
+        $.ajax({
+            url: '/getImagesfromStart',
+            type: 'GET',
+            data: { modelName: modelName },
+            success: function(data) {
+                const imagePaths = data.map(image => `assets/labelingEx/${modelName}/images/` + image);
+                // 페이지 이동 및 이미지 목록 전달
+                window.location.href = `/goLabelingEx?modelName=${modelName}&images=${encodeURIComponent(JSON.stringify(imagePaths))}`;
+            },
+            error: function(error) {
+                console.log("Error: ", error);
+                // 에러 처리
+            }
+        });
+    }
+
+    function displayImages(imageList, containerId, modelName) {
+        var container = document.getElementById(containerId);
+        container.innerHTML = ''; // 컨테이너 초기화
+
+        imageList.forEach(function(image) {
+            var img = document.createElement('img');
+            console.log(modelName)
+            img.src = `assets/labelingEx/${modelName}/images/` + image; // 이미지 경로 설정
+            console.log(img.src)
+            container.appendChild(img);
+        });
+    }
+
+
+
+</script>
+</body>
+
+</html>

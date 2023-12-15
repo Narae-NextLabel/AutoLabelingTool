@@ -1,0 +1,767 @@
+<!--   Core JS Files   -->
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="assets/js/plugins/chartjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<script>
+    var ctx = document.getElementById("chart-bars").getContext("2d");
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["M", "T", "W", "T", "F", "S", "S"],
+            datasets: [{
+                label: "Sales",
+                tension: 0.4,
+                borderWidth: 0,
+                borderRadius: 4,
+                borderSkipped: false,
+                backgroundColor: "rgba(255, 255, 255, .8)",
+                data: [50, 20, 10, 22, 50, 10, 40],
+                maxBarThickness: 6
+            }, ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 500,
+                        beginAtZero: true,
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                        color: "#fff"
+                    },
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+
+
+    var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+    new Chart(ctx2, {
+        type: "line",
+        data: {
+            labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: "Mobile apps",
+                tension: 0,
+                borderWidth: 0,
+                pointRadius: 5,
+                pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                pointBorderColor: "transparent",
+                borderColor: "rgba(255, 255, 255, .8)",
+                borderColor: "rgba(255, 255, 255, .8)",
+                borderWidth: 4,
+                backgroundColor: "transparent",
+                fill: true,
+                data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+                maxBarThickness: 6
+
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+
+    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+
+    new Chart(ctx3, {
+        type: "line",
+        data: {
+            labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: "Mobile apps",
+                tension: 0,
+                borderWidth: 0,
+                pointRadius: 5,
+                pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                pointBorderColor: "transparent",
+                borderColor: "rgba(255, 255, 255, .8)",
+                borderWidth: 4,
+                backgroundColor: "transparent",
+                fill: true,
+                data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                maxBarThickness: 6
+
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        display: true,
+                        padding: 10,
+                        color: '#f8f9fa',
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+</script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+</script>
+
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="assets/js/material-dashboard.min.js?v=3.0.0"></script>
+
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="static/css/reset.css" />
+<link rel="stylesheet" type="text/css" href="static/css/test2.css" />
+<script type="text/javascript" src="static/js/test2.js"></script>
+<script type="text/javascript">
+    var boolean = true;
+
+    function showOverlay() {
+        // 새로운 div를 생성하고 body의 직계 자식으로 추가합니다.
+        var overlayContainer = $('<div class="overlay-container"></div>').css({
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 9998  // .layout보다 낮은 z-index로 설정합니다.
+        });
+
+        var overlay = $('<div class="layout"></div>').css({
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(0,0,0,0.68)',
+            zIndex: 9999
+        });
+
+        overlayContainer.append(overlay);
+        $('body').append(overlayContainer);
+
+        // overlay div 안으로 들어가지 않도록 body의 스크롤을 막습니다.
+        $('body').css('overflow', 'hidden');
+    }
+
+    function hideOverlay() {
+        // 오버레이 숨기기
+        $('.overlay-container').remove();
+
+        // body의 스크롤 제거 해제
+        $('body').css('overflow', '');
+    }
+
+    $(document).on("click", "canvas", function () {
+        var parentElement = $(this).parent();
+        var fileOriName = $(this).siblings("img").data("fileOriName");
+        console.log("fileOriName:", fileOriName);
+
+        if (boolean) {
+            showOverlay()
+            parentElement.css({
+                'position': 'fixed',
+                'top': '50%',
+                'left': '50%',
+                'transform': 'translate(-50%, -50%) scale(2)',
+                'z-index': '9999',
+                'opacity': '1',
+            });
+
+        } else {
+            hideOverlay()
+            parentElement.css({
+                'transform': 'scale(1)',
+                'z-index': 'auto',
+                'position': '',
+                'top': '',
+                'left': '',
+            });
+
+        }
+
+        boolean = !boolean;
+
+    });
+
+
+
+</script>
+<script>
+    const colors = {
+        "person": "#FF0000", "bicycle": "#0000FF", "car": "#008000", "motorcycle": "#9a9a1d",
+        "airplane": "#800080", "bus": "#FFA500", "train": "#FFC0CB", "truck": "#A52A2A",
+        "boat": "#808080", "traffic light": "#a643a6", "fire hydrant": "#4B0082", "stop sign": "#178d17",
+        "parking meter": "#57573f", "bench": "#147777", "bird": "#9b169b", "cat": "#800000",
+        "dog": "#bda005", "horse": "#C0C0C0", "sheep": "#FFDAB9", "cow": "#F5F5DC",
+        "elephant": "#6e6e68", "bear": "#008080", "zebra": "#000080", "giraffe": "#FF7F50",
+        "backpack": "#36454F", "umbrella": "#366c6c", "handbag": "#0F52BA", "tie": "#9966CC",
+        "suitcase": "#05423c", "frisbee": "#3f3f86", "skis": "#DDA0DD", "snowboard": "#DA70D6",
+        "sports ball": "#FA8072", "kite": "#B87333", "baseball bat": "#CD7F32", "baseball glove": "#9B111E",
+        "skateboard": "#086b49", "surfboard": "#50C878", "tennis racket": "#98FB98", "bottle": "#007BA7",
+        "wine glass": "#ad0e4a", "cup": "#FFA474", "fork": "#FFDB58", "knife": "#C3B091",
+        "spoon": "#700170", "bowl": "#DC143C", "banana": "#E0B0FF", "apple": "#6c682a",
+        "sandwich": "#206c20", "orange": "#85385e", "broccoli": "#228B22", "carrot": "#87CEEB",
+        "hot dog": "#FFDEAD", "pizza": "#F5DEB3", "donut": "#9932CC", "cake": "#00BFFF",
+        "chair": "#B22222", "couch": "#2E8B57", "potted plant": "#DAA520", "bed": "#BA55D3",
+        "dining table": "#DB7093", "toilet": "#BDB76B", "tv": "#66CDAA", "laptop": "#98FB98",
+        "mouse": "#945794", "remote": "#CD853F", "keyboard": "#FF6347", "cell phone": "#008B8B",
+        "microwave": "#F08080", "oven": "#FFA07A", "toaster": "#2F4F4F", "sink": "#28966c",
+        "refrigerator": "#191970", "book": "#8B4513", "clock": "#8B008B", "vase": "#BC8F8F",
+        "scissors": "#098385", "teddy bear": "#5F9EA0", "hair drier": "#B0E0E6", "toothbrush": "#B0C4DE"
+    };
+
+    const numericColors = {};
+    Object.keys(colors).forEach((key, index) => {
+        numericColors[index] = colors[key];
+    });
+    function mapColorsToNames(colors, names) {
+        const colorMap = {};
+
+        names.forEach((className, index) => {
+            // names 배열의 각 클래스에 대해 순서에 맞게 colors 객체에서 색상을 가져와 매핑
+            colorMap[className] = colors[index];
+        });
+
+        return colorMap;
+    }
+
+
+    const classIndexMap = {};
+    const classArray = Object.keys(colors).map((key, index) => {
+        classIndexMap[index] = key;
+        return { index, name: key, color: colors[key] };
+    });
+
+    document.addEventListener("DOMContentLoaded", function(){
+
+        imgIdx = document.getElementById('imgIdx').value;
+
+        drawBoundingBox(imgIdx);
+    })
+    var classes = [];
+    function drawBoundingBox(projectIdx,resultType) {
+        document.getElementById('chartContainer').style.display = 'none';
+        const images = document.getElementsByClassName('img-fluid shadow border-radius-xl');
+        console.log("pIDX : " + projectIdx)
+
+        console.log("첫번째 함수 들어옴")
+        console.log("resultType",resultType)
+        const canvasList = document.getElementsByClassName('boxImg');
+        $.ajax({
+            url: 'getBoundingBoxes',
+            method: 'POST',
+            data:{ projectIdx: projectIdx,
+                   resultType:resultType
+            },
+            success: function(data) {
+                let classNames;
+                console.log(data)
+                if (data.yamlData == null) {
+                    // yaml 파일이 없을 때
+                    classNames = classArray.map((classInfo) => classInfo.name);
+                    console.log("yaml없음")
+                } else {
+                    // yaml 파일이 있을 때
+                    classNames = data.yamlData.names;
+                    console.log("yaml있음 클래스이름 : " + classNames)
+                }
+
+                const colorMapping = mapColorsToNames(numericColors, classNames);
+                console.log(colorMapping);
+                console.log("!!!boundingBoxesList: ",data.boundingBoxesList)
+                console.log("!!!data: ",classNames)
+
+                let labelFolder=data.boundingBoxesList[0].labelFolder;
+                $('#labelFolder').val(labelFolder);
+                for (let i = 0; i < data.boundingBoxesList.length; i++) {
+                    var image = images[i];
+                    var canvas = canvasList[i];
+                    const ctx = canvas.getContext('2d');
+                    const fileInfo = data.boundingBoxesList[i];
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+                    for (let j = 0; j < fileInfo.boundingBoxes.length; j++) {
+                        const boundingBox = fileInfo.boundingBoxes[j];
+                        const className = boundingBox.class;
+                        const boundingBoxColor = colorMapping[classNames[className]];
+                        const x = boundingBox.centerX * canvas.width - boundingBox.width * canvas.width / 2;
+                        const y = boundingBox.centerY * canvas.height - boundingBox.height * canvas.height / 2;
+                        const width = boundingBox.width * canvas.width;
+                        const height = boundingBox.height * canvas.height;
+
+                        ctx.strokeStyle = boundingBoxColor;
+                        ctx.lineWidth = 1;
+                        ctx.strokeRect(x, y, width, height);
+
+                        var text = classNames[className];
+                        ctx.font = '14px Arial';
+                        var textMetrics = ctx.measureText(text);
+
+                        ctx.fillStyle = boundingBoxColor; // 백그라운드 컬러 설정
+                        ctx.fillRect(x, y, textMetrics.width + 5, 15);
+
+                        ctx.fillStyle = "white";
+                        ctx.fillText(classNames[className], x + 2, y + 12);
+                        classes.push(classNames[className])
+                    }
+                    }
+
+            },
+            error: function(error) {
+                console.error('Error:', error);
+                alert("예측결과가 없습니다.")
+            }
+        })
+    }
+    var preBtn = document.getElementById("predictButton");
+    preBtn.addEventListener('click', function (){
+        document.getElementById('pre-container').style.display = 'flex';
+        document.getElementById('chartContainer').style.display = 'none';
+    })
+
+    // 시각화 파트
+    var chartBtn = document.getElementById("chartButton");
+
+    chartBtn.addEventListener('click', function () {
+
+        document.getElementById('pre-container').style.display = 'none';
+        document.getElementById('boundingBoxCanvas').style.display = 'none';
+        document.getElementById('chartContainer').style.display = 'block flex';
+        // document.getElementById("footer").display='none';
+        console.log("Classes for pie chart:", classes);  // 확인용 로그
+        console.log("Models for pie chart:", classes);  // 확인용 로그
+        drawPieChart(classes);
+        console.log("안나와? ")
+
+    })
+    var charts = {}; // 차트 담을 객체
+    function drawPieChart (classes, imageIndex){
+        //
+        if (charts[imageIndex]) {
+            charts[imageIndex].destroy();
+        }
+
+        // 해당 이미지의 차트가 이미 그려져 있다면 그냥 반환
+        // if (charts[imageIndex]) {
+        //     return;
+        // }
+
+        // const data = generateClassCountData(classes);
+
+        const uniqueClasses = [...new Set(classes)];
+        const chartData = generateClassCountData(classes);
+        console.log("Data for Pie Chart:", uniqueClasses);  // 확인용 로그
+        console.log("gggg for Pie Chart:", chartData);  // 확인용 로그
+
+        const backgroundColors = uniqueClasses.map((className) => colors[className]);
+
+        charts[imageIndex] = new Chart(document.querySelector('#chartCanvas').getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: uniqueClasses,
+                datasets: [{
+                    label: "인식된 개체수",
+                    backgroundColor:  backgroundColors,
+                    data: generateClassCountData(classes)
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: '인식된 클래스와 각 개체수'
+                },
+                plugins: {
+                    datalabels: {
+                        formatter: (value, context) => {
+                            return context.chart.data.labels[context.dataIndex] + ': ' + value;
+                        },
+                        color: '#353535', // 라벨 텍스트 색상
+                        anchor: 'end',
+                        align: 'start',
+                    }
+                }
+            }
+        })
+        // 테이블 생성
+        createTable(uniqueClasses, chartData, imageIndex);
+    };
+    // 이미지에 대한 차트를 관리하는 함수
+    function showChartForImage(imageIndex) {
+        // 이미지 숨기기
+        document.getElementById('imgIdx' + imageIndex).style.display = 'none';
+        document.getElementById('boundingBoxCanvas' + imageIndex).style.display = 'none';
+
+        // 해당 이미지에 대한 차트 표시
+        document.getElementById('chartContainer').style.display = 'block';
+
+        // 이미지의 클래스 정보 가져오기
+
+
+        // 차트 그리기
+        drawPieChart(classes, imageIndex);
+    }
+
+    // 이미지의 클래스 정보 가져오기
+    function getClassesForImage(imageIndex) {
+        // 이미지에 대한 클래스 정보 로직 추가
+        // ...
+
+        // 임시로 더미 데이터 반환
+        return ['person', 'dog', 'cat'];
+    }
+
+
+    // 랜덤한 색상을 생성하는 함수 (선택적으로 사용)
+    function generateRandomColors(count) {
+        const colors = [];
+        for (let i = 0; i < count; i++) {
+            colors.push(getRandomColor());
+        }
+        console.log("Generated colors:", colors);  // 확인용 로그
+        return colors;
+    }
+
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+
+    function generateClassCountData(classes) {
+        if (!Array.isArray(classes)) {
+            console.log("Type of classes22:", typeof classes);
+            console.error("classes is not an array.");
+            return [];
+        }
+        console.log("1단계 >> ",classes);
+
+        const classCounts = {};
+        classes.forEach((className) => {
+            classCounts[className] = (classCounts[className] || 0) + 1;
+        });
+        console.log("2단계 >> ",classes);
+        // 중복된 클래스 합치기
+        const uniqueClasses = [...new Set(classes)];
+        console.log("3단계 >> ",classes);
+        // 중복된 클래스를 하나로 합치고 개수 계산
+        const mergedClassCounts = uniqueClasses.map((className) => classCounts[className] || 0);
+        console.log("4단계 >> ",classes);
+        console.log("5단계 >> ",mergedClassCounts);
+        return mergedClassCounts;
+    }
+    $(window).on("load resize ", function() {
+        var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+        $('.tbl-header').css({'padding-right':scrollWidth});
+    }).resize();
+
+
+    function createTable(classes, chartData, imageIndex) {
+        const tableContainer = document.getElementById('tableSpaceBody');
+
+        // 테이블 바디 생성
+        const tableBody = document.createElement('tbody');
+        for (let i = 0; i < classes.length; i++) {
+            const tr = document.createElement('tr');
+            tr.style.paddingRight='100px';
+            const td1 = document.createElement('td');
+            td1.style.paddingRight='100px';
+            td1.textContent = classes[i];
+            const td2 = document.createElement('td');
+            td2.style.paddingLeft='100px';
+            td2.style.textAlign='right';
+            td2.textContent = chartData[i];
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tableBody.appendChild(tr);
+        }
+
+        // 테이블 추가
+        // tableContainer.appendChild(tableHeader);
+        tableContainer.appendChild(tableBody);
+    }
+
+    function workShowTooltip(id) {
+        var tooltip = document.getElementById(id);
+        tooltip.style.visibility = 'visible';
+    }
+
+    function workHideTooltip(id) {
+        var tooltip = document.getElementById(id);
+        tooltip.style.visibility = 'hidden';
+    }
+
+
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var uploadListItems = document.querySelectorAll('.image-container .newProjectWrapper');
+
+        uploadListItems.forEach(function (item) {
+            var projectIdx = item.querySelector('#imgIdx').value;
+            var canvas = item.querySelector('.boxImg');
+            var deleteButton = item.querySelector('.btn-outline-primary');
+
+            var hideButtonTimer;
+
+            canvas.addEventListener('mouseover', function () {
+                deleteButton.style.display = 'block';
+            });
+            deleteButton.addEventListener('mouseover',function (){
+                deleteButton.style.display = 'block';
+                clearTimeout(hideButtonTimer);
+            })
+            canvas.addEventListener('mouseleave', function (){
+                hideButtonTimer = setTimeout(function (){
+                    deleteButton.style.display = 'none';
+                },100);
+            })
+        });
+    });
+
+
+    function downloadProject(projectIdx){
+        console.log("다운로드 projectIdx : ", projectIdx);
+        $.ajax({
+            url:"downloadProject",
+            method:"POST",
+            data : {projectIdx:projectIdx},
+            xhrFields: {
+                responseType: 'blob'  // 서버로부터 바이너리 데이터(blob)를 받기 위한 설정
+            },
+            success: function (data) {
+                console.log("가지고 옴 : ", data);
+                var blob = new Blob([data], { type: 'application/zip' });
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = 'project.zip';  // 파일 이름 지정
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            },
+            error: function (xhr, status, error) {
+                console.error("다운로드 오류:", error);
+            }
+        })
+    }
+
+
+    // 삭제 버튼을 눌렀을 때 호출되는 함수
+    function deleteProject(fileOriName, projectIdx, event) {
+        console.log("projectIdx", projectIdx);
+
+        console.log("fileOriName", fileOriName);
+
+
+        var userResponse = confirm("삭제하시겠습니까?");
+
+
+        if (userResponse) {
+            console.log("사용자가 '예'를 선택했습니다.");
+
+            $.ajax({
+                url: 'deletefileOriName',
+                method: 'POST',
+                data: {
+                    fileOriName: fileOriName,
+                    projectIdx:projectIdx
+                },
+                success: function (data) {
+                    // 성공 시 처리
+                    console.log(data);
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+            event.preventDefault();
+
+        } else {
+            // 사용자가 '아니오'를 선택한 경우
+            console.log("사용자가 '아니오'를 선택했습니다.");
+            event.preventDefault();
+        }
+    }
+
+
+</script>
+
+
+</body>
+</html>

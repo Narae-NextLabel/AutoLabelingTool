@@ -1,0 +1,92 @@
+{{>layout/WorkspaceH}}
+{{>layout/sideNav}}
+{{>layout/ceilingWS}}
+<!-- End Navbar -->
+<div class="container-fluid px-2 px-md-4">
+
+    <div class="page-header min-height-100 border-radius-xl">
+    </div>
+    <div class="card card-body mx-3 mx-md-4 mt-n7">
+    <div class="row gx-4 mb-6">
+
+    <div class="col-auto">
+
+    <div class="avatar avatar-xl position-relative">
+
+        {{#userInfo}}
+            {{#profilePath}}
+                <img src={{profilePath}} alt="profile_image" class="w-100 border-radius-lg shadow-sm" height="74px">
+            {{/profilePath}}
+        </div>
+        </div>
+            <div class="col-auto my-auto">
+                <div class="h-100">
+                    <h5 class="mb-1">
+                        {{userName}}
+                    </h5>
+                    <p class="mb-0 font-weight-normal text-sm">
+                        {{userId}}
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+
+
+            </div>
+        </div>
+
+
+
+            <div style="display: flex; flex-wrap: wrap; margin: 3px 3px 3px 3px; overflow-x: auto; min-width: 100%; "
+                 class="image-container">
+                {{#workspace}}
+                    <div class="newProjectWrapper" style="margin: 20px">
+                        <div class="align-items-center" style="display: flex;">
+                            <div id="imageContainer{{projectIdx}}" style="position: relative;">
+                                <a class="align-items-start" href="/goWorkspace2?projectIdx={{projectIdx}}"
+                                style="display: flex; height: 270px;">
+                                <img src="{{imagePath}}"
+                                     alt="프로젝트이미지"
+                                     class="border-radius-2xl"
+                                     style="width: auto; height: 100%;"
+                                     onload="adjustParentSize('{{projectIdx}}')"
+                                     onmouseover="showDeleteButton(this)"
+                                     onmouseout="hideDeleteButton(this)"/>
+
+                                <button type="button"
+                                        onclick="deleteProject('{{projectIdx}}', event)"
+                                        class="btn btn-outline-primary btn-sm mb-0 position-absolute top-0 end-0"
+                                        style="align-self: flex-start; display: none; border: none; font-size: 18px"
+                                        id="deleteButton"
+                                        onmouseover="event.stopPropagation(); showDeleteButton(this)"
+                                        onmouseout="event.stopPropagation(); hideDeleteButton(this)">
+                                    X&nbsp;&nbsp;
+                                </button>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="align-items-start flex-container"
+                             style="display: flex; justify-content: space-between; width: 100%;"
+                             onmouseover = "showEditIcon(this)"
+                             onmouseleave="hideEditIcon(this)">
+                            <div style="width: 100%; text-align: left;" class="projectName">
+                                <h6 class="align-items-center" id="projectName"
+                                    onclick="editProjectName('{{projectIdx}}',this)"
+                                    style="font-size: 15px; margin-top: 7px;">
+                                    {{projectName}}
+                                </h6>
+                                <i class="material-icons text-xl position-relative" style="display: none; top: 8px; font-size: medium;" onmouseover = "showEditIcon(this)" onmouseleave="hideEditIcon(this)">edit</i>
+                            </div>
+                        </div>
+
+
+                    </div>
+                {{/workspace}}
+            </div>
+
+        {{/userInfo}}
+
+        {{>layout/floor}}
+    </div>
+{{>layout/sideSetting}}
+{{>layout/WorkspaceF}}

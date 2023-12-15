@@ -1,0 +1,16 @@
+names:
+- potted plant
+- vase
+- couch
+- chair
+- book
+- bottle
+- laptop
+- tv
+- bowl
+- cup
+- dining table
+nc: 11
+test: "test\uACBD\uB85C"
+train: "train\uACBD\uB85C"
+val: "val\uACBD\uB85C"

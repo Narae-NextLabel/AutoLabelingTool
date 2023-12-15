@@ -1,0 +1,61 @@
+{{>layout/uploadH}}
+{{>layout/sideNav}}
+{{>layout/ceilingUP}}
+
+<!-- End Navbar -->
+
+<div id="loading">
+    <div>
+        <img src="assets/img/logos/NextLabelLogo.png" id="logoNL">
+    </div>
+    <div class="loaderMent">예측중입니다</div>
+    <div class="progress-bar">
+        <span class="bar">
+                <span class="progress" id="loadingProgress"></span>
+            </span>
+    </div>
+    <div class="loaderNum" id="loadingPercentage"></div>
+</div>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4" id="uploadDiv">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary1 border-radius-lg pt-6 position-relative">
+                        <h6 class="text-black text-capitalize ps-3 position-relative"
+                            style="font-size: 1.4rem;letter-spacing: 3px;margin-left: 35px; color: #747474"> 이미지 또는 영상을 업로드 해보세요 :)</h6>
+                    </div>
+                </div>
+
+                {{#modelName}}
+                    <div id="selectedModel" style="
+                             color: black;
+                             font-weight: 800;
+                             float: right;
+                             margin-top: 20px;
+                             margin-left: auto;
+                             margin-right: 26px;">
+                        선택한 모델 : <span id="usingModel">{{modelName}}</span>
+                    </div>
+                    <br>
+                {{/modelName}}
+
+
+
+                <div class="grey-border mt-auto"
+                     style="height: 200px;  width: 98%; margin-bottom: 300px; border-radius: 0.75rem; margin-left: 12px">
+                    <images-slider thumbnail_width="90px" class="mt-auto"></images-slider>
+                </div>
+                <div id="snackbar"></div>
+                <plugin-window></plugin-window>
+
+            </div>
+        </div>
+    </div>
+</div>
+{{>layout/floor}}
+</div>
+</main>
+{{>layout/sideSetting}}
+
+{{>layout/uploadF}}

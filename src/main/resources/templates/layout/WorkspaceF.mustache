@@ -1,0 +1,471 @@
+<!--   Core JS Files   -->
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="assets/js/plugins/chartjs.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+<script>
+    var ctx = document.getElementById("chart-bars").getContext("2d");
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["M", "T", "W", "T", "F", "S", "S"],
+            datasets: [{
+                label: "Sales",
+                tension: 0.4,
+                borderWidth: 0,
+                borderRadius: 4,
+                borderSkipped: false,
+                backgroundColor: "rgba(255, 255, 255, .8)",
+                data: [50, 20, 10, 22, 50, 10, 40],
+                maxBarThickness: 6
+            },],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 500,
+                        beginAtZero: true,
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                        color: "#fff"
+                    },
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+
+
+    var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+    new Chart(ctx2, {
+        type: "line",
+        data: {
+            labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: "Mobile apps",
+                tension: 0,
+                borderWidth: 0,
+                pointRadius: 5,
+                pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                pointBorderColor: "transparent",
+                borderColor: "rgba(255, 255, 255, .8)",
+                borderColor: "rgba(255, 255, 255, .8)",
+                borderWidth: 4,
+                backgroundColor: "transparent",
+                fill: true,
+                data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+                maxBarThickness: 6
+
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+
+    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+
+    new Chart(ctx3, {
+        type: "line",
+        data: {
+            labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: "Mobile apps",
+                tension: 0,
+                borderWidth: 0,
+                pointRadius: 5,
+                pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                pointBorderColor: "transparent",
+                borderColor: "rgba(255, 255, 255, .8)",
+                borderWidth: 4,
+                backgroundColor: "transparent",
+                fill: true,
+                data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                maxBarThickness: 6
+
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        display: true,
+                        padding: 10,
+                        color: '#f8f9fa',
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+
+    //이미지 부모태그랑 크기 맞추기
+    function adjustParentSize(projectIdx) {
+        console.log('박스실행');
+        var container = document.getElementById('imageContainer' + projectIdx);
+        var image = container.querySelector('img');
+        var parentDiv = container.parentElement;
+
+        // Adjust the parent div width to match the image width
+        parentDiv.style.width = image.width + 'px';
+    }
+
+    function showDeleteButton(img) {
+        var deleteButton = img.parentElement.querySelector('#deleteButton');
+        if (deleteButton) {
+            deleteButton.style.display = "block";
+        }
+        console.log("show DeleteButton");
+    }
+    function hideDeleteButton(img) {
+        var deleteButton = img.parentElement.querySelector('[id^="deleteButton"]');
+        if (deleteButton) {
+            deleteButton.style.display = "none";
+        }
+        console.log("hide deleteButton");
+    }
+
+
+    // 삭제 버튼을 눌렀을 때 호출되는 함수
+    function deleteProject(projectIdx, event) {
+        console.log("deleteProject");
+        var userResponse = confirm("삭제하시겠습니까?");
+
+        if (userResponse) {
+            console.log("사용자가 '예'를 선택했습니다.");
+
+            $.ajax({
+                url: 'deleteProject',
+                method: 'POST',
+                data: ({projectIdx: projectIdx}),
+                success: function (data) {
+                    // 성공 시 처리
+                    console.log(data);
+                    location.reload();
+                },
+                error: function (error) {
+                    // 에러 시 처리
+                    console.error('Error:', error);
+                }
+            })
+            event.preventDefault();
+
+        } else {
+            // 사용자가 '아니오'를 선택한 경우
+            console.log("사용자가 '아니오'를 선택했습니다.");
+            event.preventDefault();
+        }
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var projectContainers = document.querySelectorAll('.align-items-start.flex-container');
+
+        projectContainers.forEach(function (container) {
+            container.addEventListener('mouseover', function () {
+                // showEditIcon 함수 호출
+                showEditIcon(container);
+            });
+
+            container.addEventListener('mouseleave', function () {
+                // hideEditIcon 함수 호출
+                hideEditIcon(container);
+            });
+        });
+    });
+
+    // 편집 아이콘을 표시하는 기능
+    function showEditIcon(element) {
+        var editIcon = element.querySelector('i.material-icons'); // <i> 태그 선택
+        editIcon.style.display = 'block'; // edit 아이콘을 표시
+    }
+
+    // 편집 아이콘을 숨기는 기능
+    function hideEditIcon(element) {
+        var editIcon = element.querySelector('i.material-icons'); // <i> 태그 선택
+        editIcon.style.display = 'none'; // edit 아이콘을 숨김
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 프로젝트 이름 업데이트
+    function updateProjectName(element, projectName, projectIdx) {
+        // 빈 문자열 체크
+        if (projectName === "") {
+            projectName = "제목을 입력하세요";
+        } else if (projectName.length >= 15) {
+            projectName = "제목은 15글자 이하로 :)";
+        }
+        if (element.innerHTML.trim() === projectName) {
+            return;
+        }
+
+        $.ajax({
+            url: 'updateProjectName',
+            method: 'POST',
+            data: {
+                projectName: projectName,
+                projectIdx: projectIdx
+            },
+            success: function (data) {
+                console.log(data);
+                element.innerHTML = projectName;
+                if (projectName.length >= 15 && !editingFlag) {
+                    //다시 제목 편집
+                    editingFlag = true;
+                    editProjectName(projectIdx, element);
+                } else {
+                    editingFlag = false;
+                }
+            },
+            error: function (error) {
+                console.error('Error:', error);
+            }
+        })
+    }
+
+    // 프로젝트 이름 편집
+    function editProjectName(projectIdx, element) {
+        var currentName = element.innerText;
+        console.log(currentName)
+
+        var imageContainer = document.getElementById("imageContainer" + projectIdx);
+        var imageWidth = imageContainer.offsetWidth;
+
+        var inputElement = document.createElement("input");
+        inputElement.value = currentName;
+
+        inputElement.style.width = imageWidth + "px";
+        inputElement.style.overflow = "auto";
+
+        inputElement.focus();
+
+        inputElement.addEventListener("blur", function (event) {
+            event.stopPropagation();
+            updateProjectName(element, inputElement.value, projectIdx);
+        });
+        // Enter 키를 누를 때도 업데이트 호출
+        inputElement.addEventListener("keyup", function (event) {
+            if (event.key === "Enter") {
+                updateProjectName(element, inputElement.value, projectIdx);
+            }
+        });
+        // 기존 텍스트를 input 엘리먼트로 교체
+        element.innerHTML = "";
+        element.appendChild(inputElement);
+        inputElement.select();
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // uploadAt 값을 받아와서 특정 형식으로 변환하는 함수
+    function formatUploadTime(uploadAt) {
+        const date = new Date(uploadAt);
+        const formattedTime = `${date.getFullYear()}.${padZero(date.getMonth() + 1)}.${padZero(date.getDate())}.${padZero(date.getHours())}.${padZero(date.getMinutes())}`;
+        return formattedTime;
+    }
+
+    // 한 자리 숫자일 경우 앞에 0을 추가하는 함수
+    function padZero(num) {
+        return num < 10 ? '0' + num : num;
+    }
+
+    // 페이지 로드 후 실행되는 함수
+    document.addEventListener('DOMContentLoaded', function () {
+        // uploadAt 엘리먼트 찾기
+        const uploadTimeElement = document.getElementById('uploadTime');
+
+        // uploadAt 값 가져오기
+        const uploadAtValue = uploadTimeElement.innerText;
+
+        // 특정 형식으로 변환한 값을 엘리먼트에 설정
+        uploadTimeElement.innerText = formatUploadTime(uploadAtValue);
+    });
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+</script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+</script>
+
+
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="assets/js/material-dashboard.min.js?v=3.0.0"></script>
+
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport"
+      content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+
+<link rel="stylesheet" type="text/css" href="static/css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="static/css/test2.css"/>
+<script type="text/javascript" src="static/js/test2.js"></script>
+
+
+</body>
+
+</html>

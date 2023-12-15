@@ -1,0 +1,147 @@
+{{>layout/signInH}}
+
+
+<main class="mainBody">
+
+    <div class="sectionLogIn">
+        <div class="containerLogIn">
+            <div class="row full-height justify-content-center">
+                <div class="col-12 text-center align-self-center py-5">
+                    <a href="/" class="logo" target="_blank">
+                        <img src="assets/img/logos/NextLabelLogo.png" alt="" style="height: 109px; margin-left: 30px;">
+                    </a>
+                    <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                        <!--                        <h6 class="mb-0 pb-3" style="color: whitesmoke"><span>로그인 </span><span>회원가입</span></h6>-->
+                        <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" style="display: none"/>
+                        <label for="reg-log"></label>
+                        <div class="card-3d-wrap mx-auto">
+                            <div class="card-3d-wrapper">
+
+                                <div class="card-front">
+                                    <div class="center-wrap">
+                                        <div class="section text-center">
+                                            <h4 class="mb-4 pb-3" style="color: white; letter-spacing: 1px">로그인</h4>
+                                            <form role="form" class="text-start" id="loginForm" action="signIn"
+                                                  method="post" style="margin-bottom: 25px;">
+                                                <div class="form-group">
+                                                    <input type="text" name="userId" class="form-style"
+                                                           placeholder="이메일을 입력해주세요" id="user_id" autocomplete="off">
+                                                    <i class="fa-solid fa-at input-icon fa-sm"
+                                                       style="color: #aaaeb6; margin-top: 20px;"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="password" name="userPw" class="form-style"
+                                                           placeholder="비밀번호를 입력해주세요" id="user_pw1" autocomplete="off">
+                                                    <i class="fa-solid fa-lock input-icon fa-sm"
+                                                       style="color: #aaaeb6; margin-top: 20px;"></i>
+                                                </div>
+                                                <div class="logSave">
+                                                    <label for="saveId"><input type="checkbox" id="saveCheck">&nbsp;&nbsp;&nbsp;아이디
+                                                        저장</label>
+                                                </div>
+                                                <button type="submit" class="btn mt-4" id="submitLogin">확인</button>
+                                            </form>
+                                            <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"
+                                                   style="display: none"/>
+                                            <label for="reg-log" style="color: white; position: relative; top: 30px"
+                                                   class="turnText">회원가입으로 이동</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-back">
+                                    <form role="form" class="text-start" action="/signUp" method="post" id="signUpForm">
+                                        <div class="center-wrap">
+                                            <div class="section text-center">
+                                                <h4 class="mb-2 pb-3" style="color: white; letter-spacing: 1px">
+                                                    회원가입</h4>
+                                                <div class="form-group">
+                                                    <input type="email" name="userId" class="form-style"
+                                                           placeholder="사용하실 이메일 입력해주세요" id="logname" autocomplete="off"
+                                                           style="margin-bottom: -1px;">
+                                                    <i class="fa-solid fa-at input-icon fa-sm"
+                                                       style="color: #aaaeb6; margin-top: 20px;"></i>
+                                                    <span class="errorMessage">{{#isDuplication}}
+                                                        이미 사용 중인 사용자 ID입니다.{{/isDuplication}}</span>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="text" name="userName" class="form-style"
+                                                           placeholder="이름을 입력해주세요" id="logName" autocomplete="off"
+                                                           style="margin-bottom: -1px;">
+                                                    <i class="fa-solid fa-child input-icon fa-sm"
+                                                       style="color: #aaaeb6; margin-top: 20px;"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="password" name="userPw" class="form-style"
+                                                           placeholder="사용하실 비밀번호 입력해주세요" id="user_pw"
+                                                           autocomplete="off" style="margin-bottom: -1px;">
+                                                    <i class="fa-solid fa-lock input-icon fa-sm"
+                                                       style="color: #aaaeb6; margin-top: 20px;"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="password" name="userPw2" class="form-style"
+                                                           placeholder="비밀번호 재확인 해주세요" id="user_pw2" autocomplete="off"
+                                                           style="margin-bottom: 0px">
+                                                    <i class="fa-solid fa-lock input-icon fa-sm"
+                                                       style="color: #aaaeb6; margin-top: 20px;"></i>
+                                                </div>
+                                                <button type="submit" class="btn mt-4" id="submitSignin">확인</button>
+                                            </div>
+                                            <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"
+                                                   style="display: none"/>
+                                            <label for="reg-log"
+                                                   style="color: white; top: 44px; position:relative; margin-left: 158px"
+                                                   class="turnText">로그인으로 이동</label>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    <div class="page-header align-items-start min-vh-100"-->
+    <!--         style="background-image: url('https://imgnn.seoul.co.kr/img/upload/2021/02/20/SSI_20210220102400.jpg');">-->
+    <!--        <span class="mask bg-gradient-dark opacity-6"></span>-->
+    <!--        <div class="container my-auto">-->
+    <!--            <div class="row">-->
+    <!--                <div class="col-lg-4 col-md-8 col-12 mx-auto">-->
+    <!--                    <div class="card z-index-0 fadeIn3 fadeInBottom">-->
+    <!--                        <div class="" id="loginHeader">-->
+    <!--                            <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">-->
+    <!--                                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">로그인</h4>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                        <div class="card-body">-->
+    <!--                            <form role="form" class="text-start" id="loginForm" action="signIn" method="post">-->
+    <!--                                <div class="input-group input-group-outline my-3">-->
+    <!--                                    <label class="form-label">E-mail</label>-->
+    <!--                                    <input type="email" class="form-control" name="userId" id="user_id">-->
+    <!--                                </div>-->
+    <!--                                <div class="input-group input-group-outline mb-3">-->
+    <!--                                    <label class="form-label">Password</label>-->
+    <!--                                    <input type="password" class="form-control" name="userPw" id="user_pw">-->
+    <!--                                </div>-->
+    <!--                                <div class="form-check form-switch d-flex align-items-center mb-3">-->
+    <!--                                    <input class="form-check-input" type="checkbox" id="rememberMe">-->
+    <!--                                    <label class="form-check-label mb-0 ms-2" for="rememberMe">기억하기</label>-->
+    <!--                                </div>-->
+    <!--                                <div class="text-center">-->
+    <!--                                    <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">로그인</button>-->
+    <!--                                </div>-->
+
+    <!--                                <p class="mt-4 text-sm text-center">-->
+    <!--                                    아뒤없으면 눌러봐~뒤지기 싫으면-->
+    <!--                                    <a href="/goSignUp" class="text-primary text-gradient font-weight-bold">회원가입</a>-->
+    <!--                                </p>-->
+    <!--                            </form>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+</main>
+
+{{>layout/signInF}}

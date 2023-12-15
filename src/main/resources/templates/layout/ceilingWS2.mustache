@@ -1,0 +1,42 @@
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+         navbar-scroll="true" style="height: 50px;">
+            <div class="ceilingTitle" style="font-size: larger;float: left;width: 700px;color: #353535ad;font-weight: bolder;margin-left: 29px; margin-top: 8px">
+                내 프로젝트
+            </div>
+        <div class="container-fluid py-1 px-3">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+
+                <ul class="navbar-nav  justify-content-end">
+                    <li class="nav-item d-flex align-items-center">
+                        <div href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                            <i class="fa fa-user me-sm-1" style="font-size: 0.95em;"></i>
+                            {{#userInfo}}
+                                <a class="d-sm-inline d-none" id="signInText">{{userName}}</a>
+                            {{/userInfo}}
+                            {{^userInfo}}
+                                <a class="d-sm-inline d-none" href="/goSignIn" id="signInText">로그인하세요</a>
+                            {{/userInfo}}
+                        </div>
+                    </li>
+
+                    <li class="nav-item px-2 d-flex align-items-center"> </li>
+
+                    <!--워크 스페이스 연결 후 // 로그인 이후 동적 연결하기 -->
+                    <li class="nav-item px-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                            <i class="fa fa-folder me-sm-1" style="font-size: 0.95em;"></i>
+
+                            <p class="d-sm-inline d-none" id=" "></p>
+
+                            <a  class="d-sm-inline d-none" href="/goWorkspace"style="font-size: 14px"> 내 작업실 </a>
+
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>

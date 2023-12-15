@@ -1,0 +1,189 @@
+<style>
+    /* Reset. */
+    /** {*/
+    /*    box-sizing: border-box;*/
+    /*}*/
+
+    /*body {*/
+    /*    margin: 0;*/
+    /*    padding: 0;*/
+    /*    font-size: 100%;*/
+    /*    font-family: Arial, Helvetica, sans-serif;*/
+    /*}*/
+
+    .card{
+        background: #fbfbfb;
+    }
+    .btn-uni {
+        border-radius: 4px;
+        height: 60px;
+        font-size: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+        -webkit-transition : all 200ms linear;
+        transition: all 200ms linear;
+        padding: 0 30px;
+        letter-spacing: 1px;
+        display: -webkit-inline-flex;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        -webkit-align-items: center;
+        -moz-align-items: center;
+        -ms-align-items: center;
+        position: relative;
+        top: 30px;
+        align-items: center;
+        -webkit-justify-content: center;
+        -moz-justify-content: center;
+        -ms-justify-content: center;
+        justify-content: center;
+        -ms-flex-pack: center;
+        text-align: center;
+        border: none;
+        background-color: #0071e3;
+        color: white;
+        box-shadow: 0 8px 24px 0 rgba(129, 207, 248, 0.2);
+        border-radius: 15px;
+    }
+
+    .btn-uni {
+
+        max-width: fit-content;!important;
+    }
+    .btn-uni:active,
+    .btn-uni:focus{
+        background-color: #025fbb; !important;
+        color: white; !important;
+        box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);!important;
+    }
+    .btn-uni:hover{
+        background-color: #025fbb;!important;
+        color: white;!important;
+        box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);!important;
+    }
+
+
+
+    /* Panels. */
+    .splitview {
+        position: relative;
+        width: 100%;
+        min-height: 45vw;
+        overflow: hidden;
+    }
+
+    .panel {
+        position: absolute;
+        width: 100vw;
+        min-height: 45vw;
+        overflow: hidden;
+    }
+
+    .panel .contentComparison {
+        position: absolute;
+        width: 96vw;
+        min-height: 45vw;
+        color: #FFF;
+    }
+
+    .panel .description {
+        width: 15%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        text-align: center;
+    }
+
+    .panel img {
+        box-shadow: 0 0 10px 10px rgb(231, 231, 231, 0.15);
+        width: 35%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+
+    .bottomComparison {
+        background-color: rgb(44, 44, 44);
+        z-index: 1;
+    }
+
+    .bottomComparison .description {
+        right: 15%;
+    }
+
+    .topComparison {
+        background-color: #fbfbfb;
+
+        /*background-color: rgb(77, 69, 173);*/
+        z-index: 2;
+        width: 50vw;
+
+        /*-webkit-clip-path: polygon(60% 0, 100% 0, 100% 100%, 40% 100%);
+        clip-path: polygon(60% 0, 100% 0, 100% 100%, 40% 100%);*/
+    }
+
+    .topComparison .description {
+        left: 5%;
+    }
+    .mentionA {
+        color: #FBFBFB;
+    }
+    .mentionB {
+        color: rgb(44, 44, 44);
+    }
+    .submentionB {
+        color: rgb(44, 44, 44);
+    }
+
+    /* Handle. */
+    .handler {
+        height: 100%;
+        position: absolute;
+        display: block;
+        background-color: #fbfbfb;
+        width: 5px;
+        top: 0;
+        left: 50%;
+        z-index: 3;
+    }
+    .col{
+        margin-top: 177px;
+    }
+    .img-box.cell{
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.15) 8px 8px 8px;
+
+    }
+    /* Skewed. */
+    .skewed .handler {
+        top: 50%;
+        transform: rotate(30deg) translateY(-50%);
+        height: 200%;
+        -webkit-transform-origin: top;
+        -moz-transform-origin: top;
+        transform-origin: top;
+    }
+
+    .skewed .topComparison {
+        transform: skew(-30deg);
+        margin-left: -1000px;
+        width: calc(50vw + 1000px);
+    }
+
+    .skewed .topComparison .contentComparison {
+        transform: skew(30deg);
+        margin-left: 1000px;
+    }
+
+    /* Responsive. */
+    @media (max-width: 900px) {
+        body {
+            font-size: 75%;
+        }
+    }
+
+
+
+</style>

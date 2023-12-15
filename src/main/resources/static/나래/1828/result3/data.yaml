@@ -1,0 +1,17 @@
+names:
+- couch
+- potted plant
+- chair
+- tv
+- vase
+- book
+- bottle
+- laptop
+- clock
+- bowl
+- dining table
+- cup
+nc: 12
+test: "C:/Users/SM2312AA/label/src/main/resources/static/\uB098\uB798/1828/result3/test/images"
+train: "C:/Users/SM2312AA/label/src/main/resources/static/\uB098\uB798/1828/result3/train/images"
+val: "C:/Users/SM2312AA/label/src/main/resources/static/\uB098\uB798/1828/result3/train/images"

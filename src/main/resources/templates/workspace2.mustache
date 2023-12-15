@@ -1,0 +1,139 @@
+{{>layout/WorkspaceH2}}
+{{>layout/sideNav}}
+{{>layout/ceilingWS2}}
+<!-- End Navbar -->
+<div class="container-fluid px-2 px-md-4">
+
+    <div class="card card-body mx-3 mx-md-4 mt-n6">
+    <div class="row gx-4 mb-2">
+    <div class="col-auto">
+    <div class="avatar avatar-xl position-relative">
+
+        {{#userInfo}}
+            {{#profilePath}}
+            <img src={{profilePath}} alt="profile_image" class="w-100 border-radius-lg shadow-sm" height="74px">
+            {{/profilePath}}
+        </div>
+        </div>
+            <div class="col-auto my-auto">
+                <div class="h-100">
+                    <h5 class="mb-1">
+                        {{userName}}
+                    </h5>
+                    <p class="mb-0 font-weight-normal text-sm">
+                        {{userId}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-5 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                <div class="nav-wrapper position-relative end-0">
+                    <ul class="nav nav-pills nav-fill p-1" role="tablist" style="width: 300px; right: 5px;">
+                        <li class="nav-item">
+                            <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true" id="predictButton"
+                            >
+                                <span class="ms-1" onclick="drawBoundingBox('{{projectIdx.projectIdx}}')">예측결과</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="" role="tab" aria-selected="false">
+                                <span class="ms-1" onclick="drawBoundingBox('{{projectIdx.projectIdx}}', 'previous')">이전 예측결과</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false"  id="chartButton">
+                                <span class="ms-1">차트보기</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <form action="/goAnnotation" method="post">
+                    <button class="nav-item1" style="width: 50px; height: 50px;">
+                        <input type="hidden" name="projectIdx" value="{{projectIdx.projectIdx}}">
+                        <input id="labelFolder" name="labelFolder" type="hidden">
+                        <a class="nav-link mb-0 px-0 py-1 " onmouseover="workShowTooltip('editTooltip')" onmouseout="workHideTooltip('editTooltip')" >
+                        <i class="material-icons text-xl position-relative" style="color: #344767;; top: 4px;">auto_fix_normal</i>
+                        </a>
+                        <div id="editTooltip">수정하기</div>
+                    </button>
+                    </form>
+                    <div style="width: 5px"></div>
+                    <button class="nav-item2">
+                        <a class="nav-link mb-0 px-0 py-1 " aria-selected="true" id="downloadProject">
+                            <i class="material-icons text-xl position-relative" style="color: white; top: 4px;">arrow_circle_down</i>
+                            <span onclick="downloadProject('{{projectIdx.projectIdx}}')" style="color: white">다운로드</span>
+                        </a>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+
+            <div style="display: flex; flex-wrap: wrap; margin: 3px 3px 3px 3px; overflow-x: auto; min-width: 100%;"
+                 class="image-container" id="pre-container">
+
+                {{#imageList}}
+                    <div class="bigPictureWrapper">
+                        <div class="bigPicture">
+                        </div>
+                    </div>
+                    <div class="newProjectWrapper" style="margin: 18px;">
+                        <div class="align-items-center" style="display: flex;">
+                            <div id="imageContainer{{projectIdx}}" style="position: relative;">
+                                <div style="display: flex; height: 270px;">
+                                    <a class="d-block shadow-xl border-radius-xl">
+                                        <div id="prediction-area align-items-start"
+                                             style="display: flex; height: 270px;">
+                                            <input type="hidden" value="{{projectIdx.projectIdx}}" id="imgIdx">
+                                            <img id="projectImage"
+                                                 src="{{userName}}/{{projectIdx.projectIdx}}/image/{{fileOriName}}"
+                                                 alt="프로젝트이미지" class="img-fluid shadow border-radius-xl"
+                                                 data-fileOriName="{{fileOriName}}">
+                                            <canvas id="boundingBoxCanvas" class="boxImg"></canvas>
+                                            <button type="button"
+                                                    onclick="deleteProject('{{fileOriName}}','{{projectIdx.projectIdx}}')"
+                                                    class="btn btn-outline-primary btn-sm mb-0 position-absolute top-0 end-0"
+                                                    style="align-self: flex-start; display: none;  border: none; font-size: 18px"
+                                                    id="deleteButton">
+                                                X&nbsp;&nbsp;
+                                            </button>
+                                        </div>
+                                    </a>
+                                </div>
+                                </div>
+
+                        </div>
+                        </div>
+
+                {{/imageList}}
+                {{#videoList}}
+                    <div class="bigPictureWrapper">
+                        <div class="bigPicture">
+                        </div>
+                    </div>
+                    <div class="newProjectWrapper" style="margin: 18px; height: 600px;" >
+                        <div class="align-items-center" style="display: flex;">
+                            <div id="videoContainer{{projectIdx}}" style="position: relative;">
+                                <div style="display: flex; height: 270px;">
+                                    <!-- 여기에 비디오 표시에 대한 HTML을 추가할 수 있습니다. -->
+                                    <!-- 예시: -->
+                                    <video width="800" height="600" controls>
+                                        <source src="{{userName}}/{{projectIdx.projectIdx}}/video/{{fileOriName}}" type="video/mp4">
+                                    </video>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/videoList}}
+
+            </div>
+            {{>ws2chart}}
+        {{/userInfo}}
+
+
+        {{>layout/floor}}
+    </div>
+{{>layout/sideSetting}}
+{{>layout/WorkspaceF2}}

@@ -1,0 +1,72 @@
+{{>layout/annotationH}}
+{{>layout/sideNav}}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- End Navbar -->
+{{#userInfo}}
+    <div id="toastContainer"></div>
+
+        <div class="container-fluid py-1">
+            <div class="row">
+                <div class="col-lg-12 col-md-10 mx-auto">
+                    <div class="card " style="background: #fbfbfb">
+                        <div class="card-body" style="padding: 0; height: calc(88vh);margin-top: 4px;" ;>
+                            <div class="flex-row" style="margin-top: 13px">
+                                <div class="d-flex flex-row" style="height: calc(83vh);">
+
+                                    <div id="toolbar" class="d-flex flex-column overlay-color grey-border"
+                                         style=" border-top-left-radius: 0.4px; border-bottom-left-radius: 0.4px;width:110px;border: 0.5px solid grey;">
+                                        <toolbox tools="labelling"
+                                                 style="color: black;font-size: 12px;margin-bottom: 8px;border: #fbfbfb;"></toolbox>
+                                        <toolbox class="mt-auto toolbox-border-top" tools="canvas"
+                                                 style="color: black;font-size: 12px;margin-bottom: 8px"></toolbox>
+                                    </div>
+                                    <div class="d-flex flex-column base-color" style="width: 100vw; border-bottom: 0.5px solid grey;border-top: 0.5px solid grey; background: #d2d2d73d;">
+                                        <div>
+                                            <actionbar></actionbar>
+
+                                        </div>
+
+                                        <div>
+                                            <workarea></workarea>
+                                        </div>
+
+                                    </div>
+                                    <div id="sidebar" class="p-2 overlay-color grey-border"
+                                         style="width: 350px; border-top-right-radius: 0.4px; border-bottom-right-radius: 0.4px;border:0.5px solid grey ">
+                                        <div class="buttonAnno toast-btnsave" role="button"><span
+                                                style="color: #353535;">저장 후 다음사진</span></div>
+                                        <label-panel style="border-top: 1px solid grey"></label-panel>
+                                        <div class="mb-2 mt-2" style="color: #353535; margin-left: 22px;" >
+                                            라벨 목록
+                                        </div>
+                                        <div id="checkboxList" style="margin-left: 22px;"></div>
+                                        <div class="buttonAnno" role="button" id="goEdu"><span
+                                                style="color: #353535;">학습하러 가기</span></div>
+                                        <button  class="btn bg-gradient-dark w-100 mb-1 toast-btnTrain" style="display: none" type="button" >학습하기</button>
+                                        <button  class="btn bg-gradient-dark w-100 mb-1 toast-btnCheckResult" style="display: none" type="button">예측결과확인하기</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span id="projectIdx" style="display: none">{{projectIdx}}</span>
+                        <span id="userName" style="display: none">{{userName}}</span>
+                        <span id="labelFolder" style="display: none">{{labelFolder}}</span>
+
+                        <div class="card mt-1" style="margin-top: -20px !important;">
+                            <div class="grey-border mt-auto"
+                                 style="height: 100px; width: 100%; border-radius: 4px;">
+                                <images-slider thumbnail_width="90px" class="mt-auto"></images-slider>
+                            </div>
+                            <div id="snackbar"></div>
+                            <plugin-window></plugin-window>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        </div>
+    {{>layout/annotationF}}
+{{/userInfo}}

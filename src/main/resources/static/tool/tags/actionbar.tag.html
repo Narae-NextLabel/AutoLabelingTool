@@ -1,0 +1,33 @@
+<actionbar>
+    <style>
+        #actionbar{
+            height: 50px;
+            width: 90%;
+            border-bottom: 0.5px solid grey;
+            padding: 1px 5px;
+
+        }
+        #now{
+            position: absolute;
+            height: 50px;
+            top: 18px;
+            width: 11%;
+            right: 240px;
+            color: black;
+            border-bottom: 0.5px solid grey;
+            display: flex;
+            justify-content: space-evenly;
+        }
+    </style>
+    <div id="actionbar" class="form-inline"></div><div id="now" class="form-inline" ><span id="selectedImageIndex">0</span>/<span id="totalImages">0</span></div>
+    <script>
+        this.on('mount',function(){
+            for(var a_i in this.opts.actions){
+                $("#actionbar").append(`<action-${this.opts.actions[a_i]}></action-${this.opts.actions[a_i]}>`)
+                riot.mount("action-"+this.opts.actions[a_i]);
+            }
+
+        });
+
+    </script>
+</actionbar>

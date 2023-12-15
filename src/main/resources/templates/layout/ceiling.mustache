@@ -1,0 +1,40 @@
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+         navbar-scroll="true">
+
+        <div class="container-fluid py-1 px-3">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+
+                <ul class="navbar-nav  justify-content-end">
+                    <li class="nav-item d-flex align-items-center">
+                        <div href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                            <i class="fa fa-user me-sm-1"></i>
+                            {{#userInfo}}
+                                <p class="d-sm-inline d-none" id="signInText" style="font-size: 14px;">{{userName}}님</p>
+                            {{/userInfo}}
+                            {{^userInfo}}
+                                <a class="d-sm-inline d-none" href="/goSignIn" id="signInText" style="font-size: 14px;">로그인</a>
+                            {{/userInfo}}
+                        </div>
+                    </li>
+
+                    <li class="nav-item px-2 d-flex align-items-center"> </li>
+
+                    <!--워크 스페이스 연결 후 // 로그인 이후 동적 연결하기 -->
+                    <li class="nav-item px-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                            <i class="material-icons text-xl position-relative">home</i>
+
+                            <p class="d-sm-inline d-none" id=" "></p>
+
+                            <a  class="d-sm-inline d-none" href="/goWorkspace" style="font-size: 14px"> 내 작업실 </a>
+
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>

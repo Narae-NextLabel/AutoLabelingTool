@@ -1,0 +1,348 @@
+<label-panel>
+    <style>
+        .li-fpoints{
+            margin: 5px 0px;
+            border-radius: 6px;
+            width: 100%;
+            list-style: none;
+        }
+        .drag-handler{
+            width : 20%;
+            background-color: lightgray;
+            cursor: move;
+        }
+        #fpoints-list { list-style-type: none; margin: 0; padding: 0; margin-bottom: 10px; }
+        #feature-points-list {
+            margin-top: 10px;
+            overflow-x: hidden;
+        }
+        .sortable-placeholder {
+            margin: 5px 0px;
+            padding:10px;
+            background:yellow;
+            color: black;
+        }
+
+        .selectedPoint{
+            width : 20%;
+            background-color: #17a2b8;
+            cursor: move;
+        }
+
+        #category-select-box{
+            background-color: white;
+            width: 100%;
+        }
+        .es-list{
+            color: #101010;
+        }
+
+        .animated {
+            -webkit-animation-duration: 800ms;
+            animation-duration: 800ms;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        @-webkit-keyframes slideOutRight {
+            from {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0); }
+            to {
+                visibility: hidden;
+                -webkit-transform: translate3d(100%, 0, 0);
+                transform: translate3d(100%, 0, 0); }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0); }
+            to {
+                visibility: hidden;
+                -webkit-transform: translate3d(100%, 0, 0);
+                transform: translate3d(100%, 0, 0); }
+        }
+
+        .slideOutRight {
+            -webkit-animation-name: slideOutRight;
+            animation-name: slideOutRight;
+        }
+
+        .input-group-btn{
+            cursor: pointer
+        }
+
+    </style>
+    <div  style="height: 9%;">
+        <div ref="label-data"  style="color: #353535; margin-left: 21px;">
+            라벨명 변경
+            <input id="labelInput" type="text" class="form-text w-90" value="{targetShape.label}" onchange={updateLabel} placeholder="라벨을 입력하세요">
+        </div>
+        <div ref="label-data" class="mb-2 mt-2" style="display: none">
+            <attributes-list attributes={targetShape.attributes}></attributes-list>
+        </div>
+        <div ref="label-data" class="mb-2 mt-2" style="display: none">
+            Tags <small>(separated by comma)</small>
+            <div id="tags-input-box" class="input tagarea clearfix"></div>
+        </div>
+        <p class="mb-2" style="display: none">Feature Points  <small>{ this.targetShape.featurePoints.length }</small></p>
+        <div id="feature-points-list"  style="display: none">
+            <ul id="fpoints-list">
+                <li class="li-fpoints grey-border" each={fPoint,fid in targetShape.featurePoints}>
+                    <div class="input-group small">
+                        <span class={selectedPoint: fPoint.id === this.opts.pointId, input-group-addon : true, drag-handler : fPoint.id !== this.opts.pointId} onclick={updateFPointSelected}></span>
+                        <input type="text" class="form-control" value="{ fPoint.label }" onchange={updateFPointLabel} placeholder="Label the feature point">
+                        <div class="input-group-btn" onclick={deleteTag}>
+                            <i class="icon icon-trash-empty"></i>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <script>
+
+        var tag = this;
+        tag.targetShape = getShape(this.opts.id);
+        tag.tags = tag.targetShape.tags.join(", ");
+
+        tag.updateFPointSelected = function(e){
+            eventBus.trigger('selectFeaturePoint', e.item.fPoint.id, opts.id);
+            e.stopPropagation();
+        }
+
+        tag.updateTags = function(e){
+            tag.targetShape.tags = e.target.value.split(",").map(function(item) {
+                return item.trim();
+            });
+        }
+
+        tag.updateLabel = function(e){
+            let oldLabel = tag.targetShape.label;
+            let checkboxLabels = [];
+            let checkboxes = document.querySelectorAll('#checkboxList input[type="checkbox"]');
+            checkboxes.forEach((checkbox) => {
+                // 체크박스의 값(라벨)을 배열에 추가
+                checkboxLabels.push(checkbox.value);
+            });
+
+            checkboxLabels = checkboxLabels.filter(label => {
+                // 현재 shape의 label이 없으면 checkbox에서 제거
+                const isShapeWithLabel = labellingData[imgSelected.name].shapes.some(shape => shape.label === label);
+                return isShapeWithLabel;
+            });
+            console.log(checkboxLabels);
+            // 새로운 라벨로 업데이트
+            tag.targetShape.label = e.target.value;
+
+            // 기존 라벨과 새로운 라벨이 다르다면 체크박스 생성
+            if (oldLabel !== tag.targetShape.label && tag.targetShape.label.trim() !== '' && !checkboxLabels.includes(tag.targetShape.label)) {
+                // 여기에 체크박스 생성 로직 추가
+                let checkboxList = document.getElementById('checkboxList');
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = tag.targetShape.label;
+                checkbox.id = `checkbox-${tag.targetShape.label}`;
+                checkbox.checked = true;
+                checkbox.addEventListener('change', handleCheckboxChange);
+                changedLabels.push(tag.targetShape.label)
+
+                let labelElement = document.createElement('label');
+                labelElement.htmlFor = `checkbox-${tag.targetShape.label}`;
+                labelElement.appendChild(document.createTextNode(tag.targetShape.label));
+                checkboxList.appendChild(checkbox);
+                checkboxList.appendChild(labelElement);
+                checkboxList.appendChild(document.createElement('br'));
+                // createCheckbox(tag.targetShape.label);
+                checkbox.addEventListener('change', handleCheckboxChange);
+                updateLabelText(tag.targetShape.id, tag.targetShape.label);
+                let newShape = document.getElementById(tag.targetShape.id);
+
+                if (newShape) {
+                    let newTextElement = document.createElement('text');
+                    newTextElement.id = `${tag.targetShape.id}-label`;
+                    newTextElement.setAttribute('x', tag.targetShape.x);  // 적절한 x 위치 설정
+                    newTextElement.setAttribute('y', tag.targetShape.y);  // 적절한 y 위치 설정
+                    newTextElement.textContent = tag.targetShape.label;
+                    // 추가: 새로운 텍스트 엘리먼트의 스타일 및 속성 설정
+                    newShape.appendChild(newTextElement);
+
+                }
+
+                function updateLabelText(shapeId, labelText) {
+                    let textElement = document.getElementById(`${shapeId}-label`);
+                    if (textElement) {
+                        textElement.firstChild.textContent = labelText;
+
+                        // 추가: 만약 텍스트의 위치가 변경된다면 이에 대한 업데이트 로직도 필요할 수 있습니다.
+                        // textElement.setAttribute('x', newX);
+                        // textElement.setAttribute('y', newY);
+                    }
+                }
+                function handleCheckboxChange() {
+                    console.log('Checkbox changed!');
+                    let selectedLabels = Array.from(checkboxList.querySelectorAll('input[type="checkbox"]:checked'))
+                        .map(checkbox => checkbox.value);
+                    changedLabels = selectedLabels;
+
+                    labellingData[imgSelected.name].shapes.forEach(shape => {
+                        let isLabelSelected = selectedLabels.includes(shape.label);
+                        let shapeElement = document.getElementById(shape.id);
+
+                        if (shapeElement) {
+                            if (isLabelSelected) {
+                                shapeElement.style.display = 'block';
+                                let labelTextElement = document.getElementById(`${shape.id}-label`);
+                                if (labelTextElement) {
+                                    labelTextElement.style.display = 'block';
+                                }
+                            } else {
+                                shapeElement.style.display = 'none';
+                                let labelTextElement = document.getElementById(`${shape.id}-label`);
+                                if (labelTextElement) {
+                                    labelTextElement.style.display = 'none';
+                                }
+                            }
+
+                            let checkboxElement = document.getElementById(`checkbox-${shape.label}`);
+                            if (checkboxElement) {
+                                checkboxElement.checked = isLabelSelected;
+                            }
+                        }
+                    });
+                }
+
+            }
+        }
+
+
+        tag.deleteTag = function(e){
+            $(e.target).parents('li')
+                .addClass('animated slideOutRight')
+                .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',function(){
+                    detachPointByIndex(opts.id, e.item.fid);
+                    tag.update();
+                    eventBus.trigger('removeWorkAreaFeaturePoint');
+                });
+        }
+
+        tag.updateFPointLabel = function(e){
+            tag.targetShape.featurePoints[e.item.fid].label = e.target.value;
+        }
+
+        tag.on('mount',function(){
+            $( "#fpoints-list" ).sortable({
+                axis: "y",
+                placeholder: 'sortable-placeholder',
+                opacity: 0.6,
+                helper: 'clone',
+                sort: function(event,ui){
+                    $(ui.placeholder).html('Drop me at position ' + Number($('#fpoints-list > li:visible').index(ui.placeholder)+1));
+                },
+                update : function(event,ui){
+                    var newIndex = ui.item.index();
+                    var oldIndex = ui.item[0]._tag.fid;
+                    array_move(tag.targetShape.featurePoints,oldIndex,newIndex);
+                    tag.update();
+                }
+            });
+
+            $("#category-select-box")
+                .editableSelect()
+                .on('select.editable-select', function (e, li) {
+                    //console.log(li.val() ,",", li.text() );
+                    //Update Category
+                    tag.targetShape.category = li.text().toLowerCase();
+                });
+
+            $("#category-select-box").on('keyup', function(e){
+                //Add
+                var val = $(this).val().toLowerCase();
+                if(e.keyCode === 13 && suggestedCategories.indexOf(val) === -1){
+                    $("#category-select-box").editableSelect('add', val, 0);
+                    suggestedCategories.push(val);
+                    tag.targetShape.category = val;
+                }
+            });
+
+            var tagInputBox = new Taggle('tags-input-box', {
+                tags: tag.targetShape.tags,
+                duplicateTagClass: 'bounce',
+                onTagAdd : function(event, tagText){
+                    tag.targetShape.tags.push(tagText);
+                    if(suggestedTags.indexOf(tagText) === -1){
+                        suggestedTags.push(tagText);
+                    }
+                },
+                onTagRemove : function(event, tagText){
+                    tag.targetShape.tags.splice(tag.targetShape.tags.indexOf(tagText), 1);
+                },
+            });
+
+            var tagInputBoxContainer = tagInputBox.getContainer();
+            var tagInputBoxInput = tagInputBox.getInput();
+
+            $(tagInputBoxInput).autocomplete({
+                source : suggestedTags,
+                // appendTo: tagInputBoxContainer,
+                appendTo: $("#tags-input-box"),
+                position: { at: "left bottom", of: $("#tags-input-box") },
+                messages: {
+                    noResults: '',
+                    results: function() {}
+                },
+                select: function(event, data) {
+                    event.preventDefault();
+                    // Add the tag if user clicks
+                    if (event.which === 1) {
+                        tagInputBox.add(data.item.value);
+                    }
+                }
+            })
+
+            // Make sure panel label is always empty on init of work area
+            eventBus.on('unmountLabelPanel', () => {
+                // Must pass in true to only unmount the children
+                tag.unmount(true);
+            })
+
+            // Use event bus to listen to removeTag events
+            eventBus.on('removeLabelPanelTag', () => {
+                tag.targetShape = getShape(tag.opts.id);
+                // Unmount when targetShape is removed
+                if (!tag.targetShape) {
+                    // Must pass in true to only unmount the children
+                    tag.unmount(true);
+                } else {
+                    tag.update();
+                }
+            });
+        })
+
+        tag.on('unmount', function() {
+            eventBus.off('removeLabelPanelTag');
+            eventBus.off('unmountLabelPanel');
+        })
+
+        function array_move(arr, old_index, new_index) {
+            if (old_index > new_index){
+                var temp = arr[old_index];
+                for(;old_index > new_index; old_index--){
+                    arr[old_index] = arr[old_index - 1];
+                }
+                arr[new_index] = temp;
+            } else{
+                var temp = arr[old_index];
+                for(;old_index < new_index; old_index++){
+                    arr[old_index] = arr[old_index + 1];
+                }
+                arr[new_index] = temp;
+            }
+        }
+
+
+    </script>
+</label-panel>

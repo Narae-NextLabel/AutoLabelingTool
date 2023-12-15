@@ -1,0 +1,57 @@
+{{>layout/labelingExH}}
+{{>layout/sideNav}}
+{{>layout/ceilingPre}}
+<div class="container-fluid py-4" style="padding-top: 13px!important;">
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <h6 class="text-black text-capitalize ps-3"
+                            style="font-size: 1.4rem;letter-spacing: 5px;margin-left: 50px;">
+                            '{{modelName}}' 모델의 라벨링 예시 이미지
+                        </h6>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+
+                    <div class="table-responsive p-0">
+
+
+
+                        <div id="image-container">
+                            {{#images}}
+                                <div class="image-canvas-container">
+                                    <img src="{{.}}" alt="Model Image" style="height: 350px; width: auto;"/>
+                                    <canvas class="image-canvas"></canvas>
+                                </div>
+                            {{/images}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="position-fixed bottom-10 end-1 z-index-2">
+        <div class="toast fade hide p-2 mt-2 bg-gradient-info" role="alert" aria-live="assertive" id="infoToast" aria-atomic="true"
+             style="opacity: .9;">
+            <div class="toast-header bg-transparent border-0">
+                <i class="material-icons text-white me-2">
+                    notifications
+                </i>
+                <span class="me-auto text-white font-weight-bold">Next Label </span>
+                <small class="text-white">방금전</small>
+                <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast" aria-label="Close"></i>
+            </div>
+            <hr class="horizontal light m-0">
+            <div class="toast-body text-white">
+                프로젝트가 성공적으로 추가되었습니다.
+            </div>
+        </div>
+    </div>
+    {{>layout/floor}}
+</div>
+{{>layout/sideSetting}}
+{{>layout/labelingExF}}
