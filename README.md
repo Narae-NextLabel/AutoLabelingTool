@@ -34,8 +34,6 @@ Next Label - 데이터 레이블링 작업을 위한 AutoLabelingTool 웹사이�
 
 ![슬라이드9](https://github.com/Narae-NextLabel/AutoLabelingTool/assets/143584526/5111aa93-06ae-4640-900c-9256af38c4bf)
 
-![슬라이드10](https://github.com/Narae-NextLabel/AutoLabelingTool/assets/143584526/9ee92723-6f7f-4dc0-a9dd-823c24e1535c)
-
 ![슬라이드11](https://github.com/Narae-NextLabel/AutoLabelingTool/assets/143584526/c82bb151-b7c1-4e95-8870-8669ac634208)
 
 ![슬라이드14](https://github.com/Narae-NextLabel/AutoLabelingTool/assets/143584526/af2863c4-5cfb-4b34-80ca-2e9a9d835dc5)
